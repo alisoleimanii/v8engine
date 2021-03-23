@@ -33,6 +33,6 @@
       "App\\Model\\": "app/Database/Model"
     }
   },
-  "name": "v8/engine",
+  "name": "af_sg/engine",
   "description": ""
 }
