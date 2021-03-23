@@ -31,15 +31,18 @@
       "App\\Helper\\": "app/Helper",
       "App\\Command\\": "app/Command",
       "App\\Model\\": "app/Database/Model",
-      "App\\Boot\\" : "app/Boot"
+      "App\\Boot\\": "app/Boot",
+      "App\\Helper\\Controller\\": "app/Http/Controller"
     }
   },
   "license": "MIT",
-  "authors": [{
-    "email": "alisoleimani.dev@gmail.com",
-    "name": "Aliakbar Solemani",
-    "role": "Maintainer"
-  }],
+  "authors": [
+    {
+      "email": "alisoleimani.dev@gmail.com",
+      "name": "Aliakbar Solemani",
+      "role": "Maintainer"
+    }
+  ],
   "version": "1.0",
   "name": "af_sg/engine",
   "description": ""

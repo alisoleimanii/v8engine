@@ -4,6 +4,7 @@
 namespace App\Helper;
 
 
+use Core\View;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 
@@ -24,7 +25,7 @@ class File
 
     public function store($folder = null)
     {
-        $target = BASEDIR . "/resources/View/assets/images/";
+        $target = View::baseViewsPath() . "/assets/";
         $folder ? $target .= $folder . "/" : null;
         $name = uniqid() . "." . $this->file->getClientOriginalExtension();
         (new Filesystem())->move($this->file->path(), $target . $name);

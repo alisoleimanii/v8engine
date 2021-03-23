@@ -7,7 +7,6 @@ namespace Core;
 use App\Helper\Renderable;
 use eftec\bladeone\BladeOne;
 use Exception;
-use Module\JWT\JWT;
 
 /**
  * Class View
@@ -21,14 +20,27 @@ class View
     private static self $instance;
     public BladeOne $blade;
 
-    const RESOURCE_PATH = BASEDIR . "/resources";
-    const BASE_VIEW_PATH = self::RESOURCE_PATH . "/View";
-    const COMPILE_PATH = self::BASE_VIEW_PATH . "/cache";
-
     private function __construct()
     {
-        $this->blade = new BladeOne($this->getViewPaths(), self::COMPILE_PATH, $this->compileMode());
+        $this->blade = new BladeOne($this->getViewPaths(),
+            self::compilePath()
+            , $this->compileMode());
         $this->directives();
+    }
+
+    public static function resourcePath()
+    {
+        return BASEDIR . "/" . env("RESOURCE_PATH", "resources");
+    }
+
+    public static function baseViewsPath()
+    {
+        return self::resourcePath() . "/View";
+    }
+
+    private static function compilePath()
+    {
+        return self::baseViewsPath() . "/cache";
     }
 
     private function compileMode()
@@ -50,16 +62,16 @@ class View
 
     public static function getProp($prop, $default = null)
     {
-        return @Container::get($prop) ?? $default;
+        return @container($prop) ?? $default;
     }
 
     public static function setProp($prop, $value, $nullSafe = true)
     {
         if ($nullSafe and is_null($value)) {
-            if (Container::get($prop))
+            if (container($prop))
                 return false;
         }
-        Container::add($prop, $value);
+        container($prop, $value);
         return true;
     }
 
@@ -79,19 +91,13 @@ class View
 
     private function getViewPaths()
     {
-        $paths = $this->getModulesViewPaths();
-        $paths[] = self::BASE_VIEW_PATH;
-        return array_reverse($paths);
+        return array_reverse(
+            array_merge($this->getModulesViewPaths(), [self::baseViewsPath()])
+        );
     }
 
-    public function make($view = null, $data = [], $user = true)
+    public function make($view = null, $data = [])
     {
-
-        /*
-         * Bind User To All Views
-         */
-        !$user ?: $data[JWT::USER] = JWT::getUser();
-
         /*
          * Compile View
          */

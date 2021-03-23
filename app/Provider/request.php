@@ -21,8 +21,13 @@ $events = new Dispatcher($container);
 // Create the router instance
 $router = new Router($events, $container);
 
+//Load Engine Routes
+require_once __DIR__ . "/../../router.php";
+
 // Load the Base routes
-require_once BASEDIR . '/router.php';
+if (file_exists(BASEDIR . "/router.php"))
+    require_once BASEDIR . '/router.php';
+
 
 // Create App Instance
 $app = App::instance();
