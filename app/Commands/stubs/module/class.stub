@@ -1,0 +1,27 @@
+<?php
+
+namespace Module\%name;
+
+require_once __DIR__ . "/vendor/autoload.php";
+
+/**
+ * Class %name
+ * @package Module\%name
+ */
+class %name
+{
+    /**
+     * Run on Every Time App Run
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Run on First Time or When Main Table not Exists (Debug Mode)
+     */
+    public function onActivate()
+    {
+        // migrate("%table",dirname(__FILE__));
+    }
+}

@@ -1,0 +1,14 @@
+<?php
+
+namespace Module\%name\Controller;
+
+use App\Helper\Submitter;
+use Illuminate\Http\Request;
+
+class %nameController
+{
+    public function index()
+    {
+        return "%name Module Worked SuccessFully";
+    }
+}

@@ -1,0 +1,27 @@
+<?php
+
+
+namespace Module\%name\Middleware;
+
+
+use App\Helper\Submitter;
+use Closure;
+use Illuminate\Http\Request;
+
+class %nameMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @param $scope
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        // Handle Request Before Controller
+
+        return $next($request); // Execute Controller
+    }
+}

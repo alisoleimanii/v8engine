@@ -1,0 +1,13 @@
+<?php
+use Core\App;
+use Module\%name\Controller\%nameController;
+use Module\%name\Middleware\%nameMiddleware;
+
+/**
+ * Module Routes
+ */
+$router = App::router();
+
+$router->group(["prefix" => "%name", "middleware" => [%nameMiddleware::class]], function () use ($router) {
+    $router->get("/", [%nameController::class, "index"])->name('%name.index');
+});

@@ -1,0 +1,103 @@
+<?php
+/**
+ * @copyright Aliakbar Soleimani 2020
+ * Class ServiceProviderBootstrap
+ * Bootstrap Files
+ */
+
+namespace Core;
+
+use Illuminate\{Http\Request, Routing\Redirector, Routing\Router, Routing\UrlGenerator};
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+ * Class ServiceProviderBootstrap
+ * @package Core
+ */
+final class ServiceProviderBootstrap
+{
+    const PROVIDERS_DIR = __DIR__ . "/../app/Providers";
+
+    private static array $services = [
+        /*
+         * Load Env
+         */
+        "DotEnv" => "env",
+
+        /*
+         * Create Redis Connection
+         */
+        "Redis" => "redis",
+
+        /*
+         * Create Database Connection
+         */
+        "Database" => "database",
+
+        /*
+         * Config Request Router
+         */
+        "Router" => "request",
+
+        /*
+         * Set Translator for Project
+         */
+        "I18N" => "i18n",
+
+        /*
+         * Request Validator
+         */
+        "Validator" => "validator",
+
+        /*
+         * Default Config List
+         */
+        "Config" => "configs",
+
+        /*
+         * Default View Properties
+         */
+        "View" => "view"
+    ];
+
+    private function getServiceList()
+    {
+        return self::$services;
+    }
+
+    private function load($provider)
+    {
+        require_once self::PROVIDERS_DIR . "/" . $provider . ".php";
+    }
+
+    private function initialize()
+    {
+        foreach ($this->getServiceList() as $service) {
+            $this->load($service);
+        }
+        return $this;
+    }
+
+    public static function run()
+    {
+        return (new self)->initialize();
+    }
+
+    public function invoke(Request $request, Router $router)
+    {
+        $app = App::instance();
+        $router->getRoutes()->refreshNameLookups();
+        $app->url = new UrlGenerator($router->getRoutes(), $request);
+        new Redirector(
+            $app->url
+        );
+        try {
+            $response = $router->dispatch($request);
+            $response->send();
+        } catch (NotFoundHttpException $exception) {
+            http_response_code(404);
+            echo 404;
+        }
+
+    }
+}

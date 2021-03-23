@@ -1,0 +1,38 @@
+{
+  "minimum-stability": "dev",
+  "require": {
+    "illuminate/routing": "^8.10",
+    "illuminate/events": "^8.10",
+    "illuminate/database": "8",
+    "eftec/bladeone": "dev-master",
+    "ext-json": "*",
+    "illuminate/translation": "8.x-dev",
+    "illuminate/validation": "8.x-dev",
+    "vlucas/phpdotenv": "^5.2@dev",
+    "ext-curl": "*",
+    "hekmatinasser/verta": "dev-master",
+    "predis/predis": "2.0.x-dev",
+    "guzzlehttp/guzzle": "^7.1@dev"
+  },
+  "config": {
+    "platform": {
+      "php": "7.4.9"
+    },
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
+  "autoload": {
+    "files": [
+      "app/Helper/functions.php"
+    ],
+    "psr-4": {
+      "Core\\": "core",
+      "App\\Helper\\": "app/Helper",
+      "App\\Command\\": "app/Commands",
+      "App\\Model\\": "app/Database/Model"
+    }
+  },
+  "name": "v8/engine",
+  "description": ""
+}
