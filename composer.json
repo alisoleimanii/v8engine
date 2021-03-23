@@ -1,5 +1,5 @@
 {
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "illuminate/routing": "^8.10",
     "illuminate/events": "^8.10",
