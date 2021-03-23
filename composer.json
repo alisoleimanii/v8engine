@@ -29,8 +29,9 @@
     "psr-4": {
       "Core\\": "core",
       "App\\Helper\\": "app/Helper",
-      "App\\Command\\": "app/Commands",
-      "App\\Model\\": "app/Database/Model"
+      "App\\Command\\": "app/Command",
+      "App\\Model\\": "app/Database/Model",
+      "App\\Boot\\" : "app/Boot"
     }
   },
   "name": "af_sg/engine",

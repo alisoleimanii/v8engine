@@ -7,6 +7,8 @@
 namespace Core;
 
 
+use App\Exception\V8Exception;
+use App\Helper\Bootable;
 use Carbon\Carbon;
 
 use Illuminate\{
@@ -36,12 +38,6 @@ final class App
     public Request      $request;
     public Validator    $validator;
     public UrlGenerator $url;
-
-    /**
-     * Application Boot Types
-     * @var array|string[]
-     */
-    private static array $bootTypes = ["www", "scheduler", "console"];
 
     private function __construct()
     {
@@ -117,72 +113,30 @@ final class App
 
     /**
      * Boot Application
-     * @param string $type Apllication BootTypes
+     * @param string $bootable Application Boot Type
      */
-    public static function boot(string $type)
+    public static function boot(string $bootable)
     {
         //#Todo Check Paths
 
         //Check Apllication Base Directory
         defined("BASEDIR") or new Exception('BASEDIR not Defined');
 
-        // Check Type
-        in_array($type, self::$bootTypes) or (new Exception("Invalid Boot Type"));
+        //Create Bootable
+        $boot = new $bootable();
+
+        //Check Bootable
+        $boot instanceof Bootable or new V8Exception("{$bootable} Must be Instance of ".Bootable::class);
+
 
         // Set App Timezone
         date_default_timezone_set("Asia/Tehran");
 
-        // Run Application Providers
-        ServiceProviderBootstrap::run();
 
-        App::instance()->{$type}();
-    }
+        // Run Application Provider
+        ServiceProviderBootstrap::run($boot::services());
 
-    /**
-     * Execute Http Request
-     */
-    private function www()
-    {
-         $this->invoke(App::request(), App::router());
-    }
-
-    /**
-     * Excecute Console Command
-     */
-    private function console()
-    {
-         Kernel::make($argv[1], array_slice($argv, 2));
-    }
-
-
-    /**
-     * Execute Cronjobs
-     */
-    private function scheduler()
-    {
-        Scheduler::handle();
-    }
-
-    /**
-     * Invoke Http Request
-     * @param Request $request
-     * @param Router $router
-     */
-    private function invoke(Request $request, Router $router)
-    {
-        $app = self::instance();
-        $router->getRoutes()->refreshNameLookups();
-        $app->url = new UrlGenerator($router->getRoutes(), $request);
-        new Redirector(
-            $app->url
-        );
-        try {
-            $response = $router->dispatch($request);
-            $response->send();
-        } catch (NotFoundHttpException $exception) {
-            http_response_code(404);
-            echo 404;
-        }
-
+        // Boot Application
+        (new $boot())->boot();
     }
 }

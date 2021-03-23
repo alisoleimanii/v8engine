@@ -15,7 +15,7 @@ use Illuminate\{Http\Request, Routing\Router};
  */
 final class ServiceProviderBootstrap
 {
-    const PROVIDERS_DIR = __DIR__ . "/../app/Providers";
+    const PROVIDERS_DIR = __DIR__ . "/../app/Provider";
 
     private static array $services = [
         /*
@@ -82,13 +82,10 @@ final class ServiceProviderBootstrap
         return $this;
     }
 
-    public static function run()
+    public static function run($services = null)
     {
+        is_null($services) ?: self::$services = $services;
+
         return (new self)->initialize();
-    }
-
-    public function invoke(Request $request, Router $router)
-    {
-
     }
 }
