@@ -1,6 +1,6 @@
 <?php
 
-use App\Helper\{Validator,View\Menu};
+use App\Helper\{Validator, View\Menu};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
 
@@ -42,9 +42,9 @@ function config(string $name): array
  * @param bool $user Bind JWT User To View
  * @return Exception|string
  */
-function view($view, $data = [],$user =true)
+function view($view, $data = [], $user = true)
 {
-    return View::instance()->make($view, $data,$user);
+    return View::instance()->make($view, $data, $user);
 }
 
 /**
@@ -184,4 +184,13 @@ function abort($message = null, $code = null)
 function container($param, $value = null)
 {
     return $value ? Container::add($param, $value) : Container::get($param);
+}
+
+/**
+ * Get Project Blade Instance
+ * @return \eftec\bladeone\BladeOne
+ */
+function blade()
+{
+    return View::instance()->blade;
 }

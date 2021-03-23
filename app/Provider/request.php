@@ -35,7 +35,3 @@ $app = App::instance();
 // Set Router & Request in App Instance
 $app->router = $router;
 $app->request = $request;
-
-
-
-
