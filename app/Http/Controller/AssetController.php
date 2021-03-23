@@ -3,12 +3,22 @@
 namespace App\Http\Controller;
 
 use Core\Module;
+use Core\View;
 
 class AssetController
 {
     public function module($module, $asset)
     {
         $file = Module::getModuleDir($module) . "/View/assets/{$asset}";
+        if (file_exists($file)) {
+            return $this->stream($file);
+        }
+        return abort("File Not Found", 404);
+    }
+
+    public function asset($asset)
+    {
+        $file = View::baseViewsPath() . "/assets/{$asset}";
         if (file_exists($file)) {
             return $this->stream($file);
         }
