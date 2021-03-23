@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Www implements Bootable
 {
 
-    public function boot()
+    public function boot($args = null)
     {
         $this->invoke(App::request(), App::router());
     }

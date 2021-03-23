@@ -6,7 +6,7 @@ namespace App\Helper;
 
 interface Bootable
 {
-    public function boot();
+    public function boot($args = null);
 
     /**
      * List Of Provider

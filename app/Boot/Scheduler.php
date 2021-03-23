@@ -11,7 +11,7 @@ use Core\Scheduler as Cronjob;
 class Scheduler implements Bootable
 {
 
-    public function boot()
+    public function boot($args = null)
     {
         Cronjob::handle();
     }

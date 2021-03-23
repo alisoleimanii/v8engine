@@ -114,8 +114,9 @@ final class App
     /**
      * Boot Application
      * @param string $bootable Application Boot Type
+     * @param mixed|null $args
      */
-    public static function boot(string $bootable)
+    public static function boot(string $bootable,$args = null)
     {
         //#Todo Check Paths
 
@@ -137,6 +138,6 @@ final class App
         ServiceProviderBootstrap::run($boot::services());
 
         // Boot Application
-        (new $boot())->boot();
+        (new $boot())->boot($args);
     }
 }

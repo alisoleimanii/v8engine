@@ -9,9 +9,9 @@ use Core\Kernel;
 
 class Console implements Bootable
 {
-    public function boot()
+    public function boot($args = null)
     {
-        Kernel::make($argv[1], array_slice($argv, 2));
+        Kernel::make($args[1], array_slice($args, 2));
     }
 
     public static function services()

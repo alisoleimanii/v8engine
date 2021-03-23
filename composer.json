@@ -34,6 +34,13 @@
       "App\\Boot\\" : "app/Boot"
     }
   },
+  "license": "MIT",
+  "authors": [{
+    "email": "alisoleimani.dev@gmail.com",
+    "name": "Aliakbar Solemani",
+    "role": "Maintainer"
+  }],
+  "version": "1.0",
   "name": "af_sg/engine",
   "description": ""
 }
