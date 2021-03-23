@@ -12,7 +12,7 @@ class Cache
 
     private function __construct()
     {
-        $this->redis = App::instance()->redis;
+        $this->redis = app('redis');
     }
 
     public static function instance()
@@ -27,7 +27,7 @@ class Cache
         return env("REDIS", false);
     }
 
-    public function set($key, $value, $timeout = null)
+    public function set($key, $value)
     {
         $this->redis->set($key, $value);
         return $this;

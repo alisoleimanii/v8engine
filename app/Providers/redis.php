@@ -1,6 +1,5 @@
 <?php
 
-use Core\App;
 use Predis\Client as Redis;
 
 if (env("REDIS", 0)) {
@@ -10,6 +9,6 @@ if (env("REDIS", 0)) {
     ]);
     if (env("REDIS_AUTH", 0))
         $redis->auth(env("REDIS_PASSWORD"));
-    App::instance()->redis = $redis;
+    container('redis',$redis);
     //handle redis prefix
 }

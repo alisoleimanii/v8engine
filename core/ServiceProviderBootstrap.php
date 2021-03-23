@@ -7,8 +7,7 @@
 
 namespace Core;
 
-use Illuminate\{Http\Request, Routing\Redirector, Routing\Router, Routing\UrlGenerator};
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\{Http\Request, Routing\Router};
 
 /**
  * Class ServiceProviderBootstrap
@@ -57,12 +56,17 @@ final class ServiceProviderBootstrap
         /*
          * Default View Properties
          */
-        "View" => "view"
+        "View" => "view",
+
+        /*
+         * Run Modules
+         */
+        "Module" => "module"
     ];
 
     private function getServiceList()
     {
-        return self::$services;
+        return collect(self::$services);
     }
 
     private function load($provider)
@@ -85,19 +89,6 @@ final class ServiceProviderBootstrap
 
     public function invoke(Request $request, Router $router)
     {
-        $app = App::instance();
-        $router->getRoutes()->refreshNameLookups();
-        $app->url = new UrlGenerator($router->getRoutes(), $request);
-        new Redirector(
-            $app->url
-        );
-        try {
-            $response = $router->dispatch($request);
-            $response->send();
-        } catch (NotFoundHttpException $exception) {
-            http_response_code(404);
-            echo 404;
-        }
 
     }
 }

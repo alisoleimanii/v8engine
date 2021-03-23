@@ -1,21 +1,24 @@
 <?php
 /**
  * @copyright Aliakbar Soleimani 2020
+ * #TODO Bootable Interface
  */
 
 namespace Core;
 
 
 use Carbon\Carbon;
-use Illuminate\{Database\Capsule\Manager,
+
+use Illuminate\{
     Http\Request,
+    Routing\Redirector,
     Routing\Router,
     Routing\UrlGenerator,
     Support\Traits\Macroable,
     Validation\Factory as Validator
 };
-use Predis\Client;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 /**
  * Class App
  * @package Core
@@ -32,10 +35,13 @@ final class App
     public Router       $router;
     public Request      $request;
     public Validator    $validator;
-    public string       $locale;
-    public ?Manager     $connection;
     public UrlGenerator $url;
-    public Client $redis;
+
+    /**
+     * Application Boot Types
+     * @var array|string[]
+     */
+    private static array $bootTypes = ["www", "scheduler", "console"];
 
     private function __construct()
     {
@@ -43,7 +49,7 @@ final class App
 
     public static function setConnection($connection)
     {
-       Container::add("db",$connection);
+        Container::add("db", $connection);
     }
 
     public static function instance()
@@ -105,8 +111,78 @@ final class App
 
     public static function setLocale($locale)
     {
-        Container::add('locale',$locale);
+        Container::add('locale', $locale);
         Carbon::setLocale($locale);
     }
 
+    /**
+     * Boot Application
+     * @param string $type Apllication BootTypes
+     */
+    public static function boot(string $type)
+    {
+        //#Todo Check Paths
+
+        //Check Apllication Base Directory
+        defined("BASEDIR") or new Exception('BASEDIR not Defined');
+
+        // Check Type
+        in_array($type, self::$bootTypes) or (new Exception("Invalid Boot Type"));
+
+        // Set App Timezone
+        date_default_timezone_set("Asia/Tehran");
+
+        // Run Application Providers
+        ServiceProviderBootstrap::run();
+
+        App::instance()->{$type}();
+    }
+
+    /**
+     * Execute Http Request
+     */
+    private function www()
+    {
+         $this->invoke(App::request(), App::router());
+    }
+
+    /**
+     * Excecute Console Command
+     */
+    private function console()
+    {
+         Kernel::make($argv[1], array_slice($argv, 2));
+    }
+
+
+    /**
+     * Execute Cronjobs
+     */
+    private function scheduler()
+    {
+        Scheduler::handle();
+    }
+
+    /**
+     * Invoke Http Request
+     * @param Request $request
+     * @param Router $router
+     */
+    private function invoke(Request $request, Router $router)
+    {
+        $app = self::instance();
+        $router->getRoutes()->refreshNameLookups();
+        $app->url = new UrlGenerator($router->getRoutes(), $request);
+        new Redirector(
+            $app->url
+        );
+        try {
+            $response = $router->dispatch($request);
+            $response->send();
+        } catch (NotFoundHttpException $exception) {
+            http_response_code(404);
+            echo 404;
+        }
+
+    }
 }
