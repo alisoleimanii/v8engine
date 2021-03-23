@@ -7,7 +7,7 @@
 
 namespace Core;
 
-use Illuminate\{Http\Request, Routing\Router};
+use Illuminate\Support\Collection;
 
 /**
  * Class ServiceProviderBootstrap
@@ -17,56 +17,16 @@ final class ServiceProviderBootstrap
 {
     const PROVIDERS_DIR = __DIR__ . "/../app/Provider";
 
-    private static array $services = [
-        /*
-         * Load Env
-         */
-        "DotEnv" => "env",
+    private static Collection $services;
 
-        /*
-         * Create Redis Connection
-         */
-        "Redis" => "redis",
-
-        /*
-         * Create Database Connection
-         */
-        "Database" => "database",
-
-        /*
-         * Config Request Router
-         */
-        "Router" => "request",
-
-        /*
-         * Set Translator for Project
-         */
-        "I18N" => "i18n",
-
-        /*
-         * Request Validator
-         */
-        "Validator" => "validator",
-
-        /*
-         * Default Config List
-         */
-        "Config" => "configs",
-
-        /*
-         * Default View Properties
-         */
-        "View" => "view",
-
-        /*
-         * Run Modules
-         */
-        "Module" => "module"
-    ];
+    private function __construct()
+    {
+        isset(self::$services) ?: self::$services = collect([]);
+    }
 
     private function getServiceList()
     {
-        return collect(self::$services);
+        return self::$services = collect(array_merge(self::$services->toArray(), config("services", true)));
     }
 
     private function load($provider)
@@ -84,8 +44,7 @@ final class ServiceProviderBootstrap
 
     public static function run($services = null)
     {
-        is_null($services) ?: self::$services = $services;
-
+        is_null($services) ?: self::$services = collect($services);
         return (new self)->initialize();
     }
 }

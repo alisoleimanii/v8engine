@@ -7,22 +7,13 @@ use Exception;
 
 final class Kernel
 {
-    private static array $commands = [
-        "make:module" => MakeModule::class,
-        "born" => Born::class,
-        "cache:clear" => Cache::class,
-        "migrate" => Migrate::class,
-        "route:list" => Route::class,
-        "make:controller" => MakeController::class,
-        "make:model" => MakeModel::class,
-        "make:migration" => MakeMigration::class,
-        "make:middleware" => MakeMiddleware::class,
-    ];
+    private static array $commands = [];
     public string $command;
 
     public function __construct($command)
     {
         $this->command = $command;
+        self::$commands = array_merge(self::$commands, config("commands", true));
     }
 
     private function __clone()

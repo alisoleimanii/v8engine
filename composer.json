@@ -32,7 +32,7 @@
       "App\\Command\\": "app/Command",
       "App\\Model\\": "app/Database/Model",
       "App\\Boot\\": "app/Boot",
-      "App\\Helper\\Controller\\": "app/Http/Controller",
+      "App\\Http\\Controller\\": "app/Http/Controller",
       "App\\Exception\\": "app/Exception"
     }
   },

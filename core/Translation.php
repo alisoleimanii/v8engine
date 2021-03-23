@@ -12,8 +12,6 @@ use Illuminate\{Filesystem\Filesystem, Translation\FileLoader, Translation\Trans
  */
 class Translation
 {
-
-    const LOADER_PATH = BASEDIR . "/lang";
     private static self $instance;
     private FileLoader $loader;
     private array $translators = [];
@@ -23,9 +21,14 @@ class Translation
         $this->initializeLoader();
     }
 
+    public static function getLangPath()
+    {
+        return BASEDIR . "/" . env("LANG_PATH", 'lang');
+    }
+
     private function initializeLoader()
     {
-        $this->loader = new FileLoader(new Filesystem(), self::LOADER_PATH);
+        $this->loader = new FileLoader(new Filesystem(), self::getLangPath());
     }
 
     public static function instance()

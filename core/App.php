@@ -13,14 +13,14 @@ use Carbon\Carbon;
 
 use Illuminate\{
     Http\Request,
-    Routing\Redirector,
     Routing\Router,
     Routing\UrlGenerator,
     Support\Traits\Macroable,
     Validation\Factory as Validator
 };
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
+use Throwable;
+
 /**
  * Class App
  * @package Core
@@ -107,7 +107,7 @@ final class App
 
     public static function setLocale($locale)
     {
-        Container::add('locale', $locale);
+        container('locale', $locale);
         Carbon::setLocale($locale);
     }
 
@@ -115,20 +115,23 @@ final class App
      * Boot Application
      * @param string $bootable Application Boot Type
      * @param mixed|null $args
+     * @throws Throwable
      */
-    public static function boot(string $bootable,$args = null)
+    public static function boot(string $bootable, $args = null)
     {
         //#Todo Check Paths
 
-        //Check Apllication Base Directory
+        //Check Application Base Directory
         defined("BASEDIR") or new Exception('BASEDIR not Defined');
+
+        //Define Engine Main Directory Path
+        define('ENGINE_PATH', __DIR__ . '/..');
 
         //Create Bootable
         $boot = new $bootable();
 
         //Check Bootable
-        $boot instanceof Bootable or new V8Exception("{$bootable} Must be Instance of ".Bootable::class);
-
+        throw_if(!$boot instanceof Bootable, new V8Exception("{$bootable} Must be Instance of " . Bootable::class));
 
         // Set App Timezone
         date_default_timezone_set("Asia/Tehran");

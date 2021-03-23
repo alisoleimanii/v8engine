@@ -28,11 +28,14 @@ function url(string $uri = null, array $extra = [])
 /**
  * Get project configs
  * @param $name string Config file name
+ * @param bool $enginePath Main Engine Configs
  * @return array
  */
-function config(string $name): array
+function config(string $name, $enginePath = false): array
 {
-    return require BASEDIR . "/config/" . $name . ".php";
+    if ($enginePath)
+        return require_once __DIR__ . "/../../config/{$name}.php";
+    return require BASEDIR . "/" . env("CONFIG_PATH", 'config') . "/" . $name . ".php";
 }
 
 /**

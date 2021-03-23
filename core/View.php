@@ -38,7 +38,7 @@ class View
         return self::resourcePath() . "/View";
     }
 
-    private static function compilePath()
+    public static function compilePath()
     {
         return self::baseViewsPath() . "/cache";
     }
