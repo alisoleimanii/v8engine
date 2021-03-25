@@ -42,12 +42,11 @@ function config(string $name, $enginePath = false): array
  * Blade helper function
  * @param $view
  * @param array $data
- * @param bool $user Bind JWT User To View
  * @return Exception|string
  */
-function view($view, $data = [], $user = true)
+function view($view, $data = [])
 {
-    return View::instance()->make($view, $data, $user);
+    return View::instance()->make($view, $data);
 }
 
 /**

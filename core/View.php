@@ -108,11 +108,6 @@ class View
         }
     }
 
-    public static function abort($code, $msg)
-    {
-        return false;
-    }
-
     private function directives()
     {
         $url = url();

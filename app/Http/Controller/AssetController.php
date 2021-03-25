@@ -29,13 +29,37 @@ class AssetController
 
     private function stream($file)
     {
-        header('Content-Description: File Transfer');
+        // Last Modified
+        $lastModified = filemtime(__FILE__);
+
+        // Get a unique hash of this file (etag)
+        $etagFile = md5_file(__FILE__);
+
+        // Get the HTTP_IF_MODIFIED_SINCE header if set
+        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+
+        // Get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
+        // Set last-modified header
+        header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+
+
         header('Content-Type: ' . $this->getMimeType($file));
-        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-        header('Expires: 0');
+//        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+//        header('Expires: 0');
 //        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
+//        header('Pragma: public');
+        // Set etag-header
+        header("Etag: $etagFile");
+
+        header('Cache-Control: public');
         header('Content-Length: ' . filesize($file));
+
+        if(@strtotime($ifModifiedSince) == $lastModified || $etagHeader == $etagFile){
+            header("HTTP/1.1 304 Not Modified");
+            exit;
+        }
         return readfile($file);
     }
 
@@ -51,5 +75,6 @@ class AssetController
     {
         return last(explode(".", $file));
     }
+
 
 }
