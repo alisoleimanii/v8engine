@@ -32,7 +32,7 @@ class Presence implements DatabasePresenceVerifierInterface
      */
     public function __construct()
     {
-        $this->db = app("connection");
+        $this->db = app("db");
     }
 
     /**
