@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Helper\Command;
 use Core\Module;
+use Illuminate\Support\Str;
 
 class MakeModel extends Command
 {
@@ -54,11 +55,11 @@ class MakeModel extends Command
 
     private function controller()
     {
-        return (new MakeController("make:controller", $this->name, $this->module))->run();
+        return (new MakeController("make:controller", $this->name . "Controller", $this->module))->run();
     }
 
     private function migration()
     {
-        return (new MakeMigration("make:migration", $this->name, $this->module))->run();
+        return (new MakeMigration("make:migration", Str::pluralStudly(lcfirst($this->name)), $this->module))->run();
     }
 }

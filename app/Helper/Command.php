@@ -4,17 +4,22 @@
 namespace App\Helper;
 
 
+/**
+ * Class Command
+ * @package App\Helper
+ */
 abstract class Command implements Commandable
 {
     protected string $dir;
+    const ENGINE_DIR = __DIR__ . "/../..";
 
-    abstract public function __construct($command,...$args);
+    abstract public function __construct($command, ...$args);
 
     abstract public function run();
 
     protected function stub($stub, $search = "", $replace = "")
     {
-        return str_replace($search, $replace, file_get_contents(BASEDIR . "/app/Commands/stubs/{$stub}.stub"));
+        return str_replace($search, $replace, file_get_contents(self::ENGINE_DIR . "/app/Command/stubs/{$stub}.stub"));
     }
 
     protected function putFile($file, $data)
