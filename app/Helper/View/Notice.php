@@ -5,7 +5,6 @@ namespace App\Helper\View;
 
 
 use App\Helper\Renderable;
-use Module\JWT\JWT;
 
 class Notice extends Renderable
 {
@@ -16,7 +15,7 @@ class Notice extends Renderable
 
     public function render($object): ?string
     {
-        return view("components.notice", compact("object"),false);
+        return view("components.notice", compact("object"));
     }
 
     public function prioritySort(): Renderable
@@ -26,6 +25,6 @@ class Notice extends Renderable
 
     public function can($object): bool
     {
-        return JWT::getUser()->can($object["permission"]);
+        return $this->user()->can($object["permission"]);
     }
 }

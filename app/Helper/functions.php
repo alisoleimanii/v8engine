@@ -200,13 +200,13 @@ function blade()
 /**
  * @param $slug
  * @param $title
+ * @param $priority
  * @param string $data
  * @param null $permission
- * @param int $priority
  * @return array
  * @see \App\Helper\HasTable
  */
-function column($slug, $title, $data = COLUMN_PROPERTY, $permission = null, $priority = 0)
+function column($slug, $title, $priority, $data = COLUMN_PROPERTY, $permission = null)
 {
     return compact("slug", "title", "data", "permission", "priority");
 }

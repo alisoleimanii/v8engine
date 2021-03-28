@@ -61,7 +61,7 @@ trait HasTable
     private static function renderTableHeader()
     {
         $header = '';
-        foreach (self::table()->sortByDesc("priority") as $column) {
+        foreach (self::table()->sortBy("priority") as $column) {
             if (self::condition($column))
                 $header .= "<th id='{$column['slug']}'>{$column['title']}</th>";
         }
@@ -83,7 +83,7 @@ trait HasTable
              * @var HasTable $record
              */
             $body .= "<tr class=''>";
-            foreach (self::table()->sortByDesc("priority") as $column) {
+            foreach (self::table()->sortBy("priority") as $column) {
                 $body .= $record->renderRow($column, $record);
             }
             $body .= "</tr>";

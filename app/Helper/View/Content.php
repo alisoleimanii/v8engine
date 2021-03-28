@@ -5,8 +5,6 @@ namespace App\Helper\View;
 
 use App\Helper\Renderable;
 
-use Module\JWT\JWT;
-
 class Content extends Renderable
 {
 
@@ -17,7 +15,7 @@ class Content extends Renderable
 
     public function render($object): ?string
     {
-        return $object['content'];
+        return is_callable($object["content"]) ? $object["content"]() : $object['content'];
     }
 
     public function prioritySort(): Renderable
@@ -27,6 +25,6 @@ class Content extends Renderable
 
     public function can($object): bool
     {
-        return JWT::getUser()->can($object["permission"]);
+        return $this->user()->can($object["permission"]);
     }
 }

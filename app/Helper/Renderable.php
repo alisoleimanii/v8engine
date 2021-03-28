@@ -6,7 +6,6 @@ namespace App\Helper;
 
 use Core\App;
 use Illuminate\Support\Collection;
-use Module\JWT\JWT;
 
 abstract class Renderable extends Collection
 {
@@ -23,7 +22,7 @@ abstract class Renderable extends Collection
 
     public function user()
     {
-        return JWT::getUser();
+        return app("user");
     }
 
     public function renderPrefix()

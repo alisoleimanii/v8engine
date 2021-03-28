@@ -8,8 +8,6 @@ use App\Model\Config;
 use Core\Model;
 use Illuminate\Http\Request;
 use Closure;
-use Module\JWT\JWT;
-use Module\JWT\Model\User;
 
 class MetaField
 {
@@ -89,12 +87,13 @@ class MetaField
         return @$meta->value;
     }
 
-    public function setPermission($scope, User $user = null)
+    public function setPermission($scope, $user = null)
     {
-        $this->user = $user ?? JWT::getUser();
+        $this->user = $user ?? app("user");
         $this->permission = $scope;
         return $this;
     }
+
     public function setNote($note)
     {
         $this->note = $note;
@@ -106,7 +105,7 @@ class MetaField
         if (!isset($this->permission) or $this->permission == "") {
             return true;
         }
-        $this->user = $this->user ?? JWT::getUser();
+        $this->user = $this->user ?? app("user");
         if (!$this->user)
             return false;
 

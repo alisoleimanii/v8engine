@@ -5,7 +5,6 @@ namespace App\Helper\View;
 
 
 use Illuminate\Support\Collection;
-use Module\JWT\JWT;
 
 class Menu
 {
@@ -31,7 +30,7 @@ class Menu
     {
         $menu = self::$menu[$slug];
         $children = self::children($slug);
-        $user = JWT::getUser();
+        $user = app("user");
         $html = "";
         if ($user->can($menu["permission"]))
             if ($children == []) {

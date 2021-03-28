@@ -3,7 +3,6 @@
 namespace App\Helper\View;
 
 use App\Helper\Renderable;
-use Module\JWT\JWT;
 
 class Footer extends Renderable
 {
@@ -14,7 +13,7 @@ class Footer extends Renderable
 
     public function render($object): ?string
     {
-        return $object['content'];
+        return is_callable($object["content"]) ? $object["content"]() : $object['content'];
     }
 
     public function prioritySort(): Renderable
@@ -24,6 +23,6 @@ class Footer extends Renderable
 
     public function can($object): bool
     {
-        return JWT::getUser()->can($object["permission"]);
+        return app("user")->can($object["permission"]);
     }
 }
