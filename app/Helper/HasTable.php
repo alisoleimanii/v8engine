@@ -62,7 +62,7 @@ trait HasTable
     {
         $header = '';
         foreach (self::table()->sortByDesc("priority") as $column) {
-            if (self::can($column))
+            if (self::condition($column))
                 $header .= "<th id='{$column['slug']}'>{$column['title']}</th>";
         }
         return $header;
@@ -70,7 +70,7 @@ trait HasTable
 
     private function renderRow($column, $record)
     {
-        if (self::can($column))
+        if (self::condition($column))
             return "<td>" . self::getData($column, $record) . "</td>";
         return null;
     }
@@ -101,7 +101,7 @@ trait HasTable
 
     }
 
-    private static function can($column)
+    private static function condition($column)
     {
         return app("user")->can(@$column["permission"]);
     }
