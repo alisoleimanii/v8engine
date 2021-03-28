@@ -26,17 +26,7 @@ trait HasTable
 
     private static function initialize()
     {
-        $defaultColumns = collect();
-        foreach (self::getDefaultColumns() as $column) {
-            $defaultColumns->add([
-                "slug" => $column["slug"],
-                "title" => $column["title"],
-                "data" => $column["data"],
-                "permission" => @$column["permission"],
-                "priority" => @$column["priority"] ?: 0
-            ]);
-        }
-        return self::$items = $defaultColumns;
+        return self::$items = collect(self::getDefaultColumns());
     }
 
     public static function addTableColumn($slug, $title, $data, $permission = null, $priority = 0)
@@ -71,7 +61,7 @@ trait HasTable
     private static function renderTableHeader()
     {
         $header = '';
-        foreach (self::table()->sortBy("priority") as $column) {
+        foreach (self::table()->sortByDesc("priority") as $column) {
             if (self::can($column))
                 $header .= "<th id='{$column['slug']}'>{$column['title']}</th>";
         }
@@ -93,7 +83,7 @@ trait HasTable
              * @var HasTable $record
              */
             $body .= "<tr class=''>";
-            foreach (self::table()->sortBy("priority") as $column) {
+            foreach (self::table()->sortByDesc("priority") as $column) {
                 $body .= $record->renderRow($column, $record);
             }
             $body .= "</tr>";

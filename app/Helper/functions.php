@@ -196,3 +196,17 @@ function blade()
 {
     return View::instance()->blade;
 }
+
+/**
+ * @param $slug
+ * @param $title
+ * @param string $data
+ * @param null $permission
+ * @param int $priority
+ * @return array
+ * @see \App\Helper\HasTable
+ */
+function column($slug, $title, $data = COLUMN_PROPERTY, $permission = null, $priority = 0)
+{
+    return compact("slug", "title", "data", "permission", "priority");
+}
