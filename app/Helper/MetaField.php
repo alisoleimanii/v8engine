@@ -22,7 +22,7 @@ class MetaField
     public Closure $getValue;
     private $controller;
     public $permission;
-    public ?User $user;
+    public $user;
     private static array $inputAble = ["text", "date", "datetime-local", "color", "number"];
     /**
      * @var void
