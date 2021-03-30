@@ -42,7 +42,7 @@ class AssetController
         $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
         // Set last-modified header
-        header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
 
 
         header('Content-Type: ' . $this->getMimeType($file));
@@ -56,11 +56,12 @@ class AssetController
         header('Cache-Control: public');
         header('Content-Length: ' . filesize($file));
 
-        if(@strtotime($ifModifiedSince) == $lastModified || $etagHeader == $etagFile){
+        if (@strtotime($ifModifiedSince) == $lastModified || $etagHeader == $etagFile) {
             header("HTTP/1.1 304 Not Modified");
             exit;
         }
-        return readfile($file);
+        readfile($file);
+        die();
     }
 
     public function getMimeType($file)
