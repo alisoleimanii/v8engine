@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
  * @method static static where(...$condition)
  * @method static static with(...$condition)
  * @method static static orderBy($column, $order)
+ * @method static static forPage($page, $perPage)
  * @method static static whereIn(...$condition)
  * @method static whereHas(string $string, $param)
  * @property mixed id
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 class Model extends BaseModel
 {
     const ID = "id";
+
     public static array $creatable = [];
     public static array $updatable = [];
     public static array $updateRules = [];

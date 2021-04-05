@@ -41,7 +41,7 @@ class Www implements Bootable
         try {
             $response = $router->dispatch($request);
         } catch (NotFoundHttpException $exception) {
-            throw new V8Exception("Route Not Found", 404);
+            throw new V8Exception("route.invalid", "Route Not Found", 404);
         }
         $response->send();
     }

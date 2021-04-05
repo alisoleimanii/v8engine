@@ -5,11 +5,9 @@
     "illuminate/events": "^8.10",
     "illuminate/database": "8",
     "eftec/bladeone": "dev-master",
-    "ext-json": "*",
     "illuminate/translation": "8.x-dev",
     "illuminate/validation": "8.x-dev",
     "vlucas/phpdotenv": "^5.2@dev",
-    "ext-curl": "*",
     "hekmatinasser/verta": "dev-master",
     "predis/predis": "2.0.x-dev",
     "guzzlehttp/guzzle": "^7.1@dev"
@@ -44,7 +42,7 @@
       "role": "Maintainer"
     }
   ],
-  "version": "1.1",
+  "version": "1.1.2",
   "name": "af_sg/engine",
   "description": ""
 }

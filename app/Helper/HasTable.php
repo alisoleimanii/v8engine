@@ -32,7 +32,7 @@ trait HasTable
     public static function addTableColumn($slug, $title, $data, $permission = null, $priority = 0)
     {
         if (!self::checkColumnData($data))
-            throw new V8Exception("Unsupported {$slug} Column Data");
+            throw new V8Exception("table.unsupported.slug","Unsupported {$slug} Column Data");
 
         self::table()->add(compact("slug", "title", "data", "permission", "priority"));
     }

@@ -11,7 +11,7 @@ class AssetController
     {
         $file = Module::getModuleDir($module) . "/View/assets/{$asset}";
         if (file_exists($file)) {
-            return $this->stream($file);
+            $this->stream($file);
         }
         return abort("File Not Found", 404);
     }

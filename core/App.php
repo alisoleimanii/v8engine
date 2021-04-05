@@ -131,7 +131,7 @@ final class App
         $boot = new $bootable();
 
         //Check Bootable
-        throw_if(!$boot instanceof Bootable, new V8Exception("{$bootable} Must be Instance of " . Bootable::class));
+        throw_if(!$boot instanceof Bootable, new V8Exception("bootable.invalid", "{$bootable} Must be Instance of " . Bootable::class));
 
         // Set App Timezone
         date_default_timezone_set("Asia/Tehran");
