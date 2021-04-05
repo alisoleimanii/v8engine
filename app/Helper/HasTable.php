@@ -54,7 +54,7 @@ trait HasTable
     public static function renderTable(Collection $records)
     {
         $id = str_replace("\\", "_", static::class);
-        Footer::create("table", "<script>$('#{$id}').DataTable({'pageLength': 25})</script>");
+        Footer::create("table", "<script>var table = $('#{$id}').DataTable({'pageLength': 25})</script>");
         return view("table", ["records" => $records, "header" => self::renderTableHeader(), "body" => self::renderTableBody($records), "id" => $id]);
     }
 
