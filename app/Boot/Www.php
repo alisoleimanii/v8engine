@@ -5,7 +5,7 @@ namespace App\Boot;
 
 
 use App\Exception\V8Exception;
-use App\Helper\Bootable;
+use App\Interfaces\Bootable;
 use Core\App;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;

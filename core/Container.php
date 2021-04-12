@@ -11,7 +11,7 @@ class Container
     public static function add($key, $value)
     {
         self::$containers[$key] = $value;
-        return true;
+        return $value;
     }
 
     public static function get($key)

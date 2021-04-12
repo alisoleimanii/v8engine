@@ -2,12 +2,9 @@
 
 namespace App\Command;
 
-use App\Helper\Commandable;
+use App\Interfaces\Commandable;
 use App\Helper\ConsoleTable;
-use App\Helper\Submitter;
 use Core\App;
-use Illuminate\Http\Request;
-use Module\Rp76\Model\Post;
 
 class Route implements Commandable
 {

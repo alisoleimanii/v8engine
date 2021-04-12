@@ -4,7 +4,7 @@
 namespace App\Boot;
 
 
-use App\Helper\Bootable;
+use App\Interfaces\Bootable;
 use Core\Kernel;
 
 class Console implements Bootable

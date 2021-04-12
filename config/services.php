@@ -43,5 +43,10 @@ return [
     /*
      * Run Modules
      */
-    "Module" => "module"
+    "Module" => "module",
+
+    /*
+     * Load Templates
+     */
+    "Template" => "template"
 ];

@@ -4,7 +4,7 @@
 namespace App\Command;
 
 
-use App\Helper\Commandable;
+use App\Interfaces\Commandable;
 
 class Born implements Commandable
 {

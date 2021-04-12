@@ -26,20 +26,20 @@ trait HasTable
 
     private static function initialize()
     {
-        return self::$items = collect(self::getDefaultColumns());
+        return self::$items = collect(static::getDefaultColumns());
     }
 
     public static function addTableColumn($slug, $title, $data, $permission = null, $priority = 0)
     {
         if (!self::checkColumnData($data))
-            throw new V8Exception("table.unsupported.slug","Unsupported {$slug} Column Data");
+            throw new V8Exception("table.unsupported.slug", "Unsupported {$slug} Column Data");
 
         self::table()->add(compact("slug", "title", "data", "permission", "priority"));
     }
 
     private static function checkColumnData($data)
     {
-        return $data == \COLUMN_PROPERTY or $data == \COLUMN_META or is_callable($data);
+        return $data == COLUMN_PROPERTY or $data == COLUMN_META or is_callable($data);
     }
 
     private static function getData($column, $model)
@@ -51,9 +51,9 @@ trait HasTable
                 $column["data"]($model));
     }
 
-    public static function renderTable(Collection $records)
+    public static function renderTable(Collection $records, $id = null)
     {
-        $id = str_replace("\\", "_", static::class);
+        $id = $id ? $id : str_replace("\\", "_", static::class);
         Footer::create("table", "<script>var table = $('#{$id}').DataTable({'pageLength': 25})</script>");
         return view("table", ["records" => $records, "header" => self::renderTableHeader(), "body" => self::renderTableBody($records), "id" => $id]);
     }

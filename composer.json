@@ -27,6 +27,7 @@
     "psr-4": {
       "Core\\": "core",
       "App\\Helper\\": "app/Helper",
+      "App\\Interfaces\\": "app/Interface",
       "App\\Command\\": "app/Command",
       "App\\Model\\": "app/Database/Model",
       "App\\Boot\\": "app/Boot",

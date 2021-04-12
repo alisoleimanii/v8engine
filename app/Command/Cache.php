@@ -3,7 +3,7 @@
 
 namespace App\Command;
 
-use App\Helper\Commandable;
+use App\Interfaces\Commandable;
 use Core\View;
 
 class Cache implements Commandable

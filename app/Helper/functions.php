@@ -1,5 +1,6 @@
 <?php
 
+use App\Interfaces\Templatable;
 use App\Helper\{Validator, View\Menu};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
@@ -209,4 +210,25 @@ function blade()
 function column($slug, $title, $priority, $data = COLUMN_PROPERTY, $permission = null)
 {
     return compact("slug", "title", "data", "permission", "priority");
+}
+
+/**
+ * @param string $template
+ * @return Templatable
+ * Get Template Instance
+ */
+function template($template = "default")
+{
+    /**
+     * Change Active Template
+     */
+    container("template", $template);
+
+    return container("template.{$template}");
+}
+
+function asset($src)
+{
+    $url = container("url") ?? container("url", url());
+    return $url . "/" . $src;
 }

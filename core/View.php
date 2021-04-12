@@ -89,6 +89,11 @@ class View
         return $paths;
     }
 
+    public function addPath($path)
+    {
+        $this->blade->setPath([$path, ...$this->getViewPaths()], self::compilePath());
+    }
+
     private function getViewPaths()
     {
         return array_reverse(

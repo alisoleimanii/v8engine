@@ -69,10 +69,10 @@ class AssetController
         $mimeTypes = ["css" => "text/css",
             "js" => "text/javascript",
         ];
-        return @$mimeTypes[$this->getFileExtention($file) ?? null];
+        return @$mimeTypes[$this->getFileExtension($file) ?? null];
     }
 
-    public function getFileExtention($file)
+    public function getFileExtension($file)
     {
         return last(explode(".", $file));
     }
