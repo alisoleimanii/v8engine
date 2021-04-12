@@ -1,7 +1,7 @@
 <?php
 
 use Core\View;
-use App\Helper\View\{Content, Footer, Notice, Style};
+use App\Helper\View\{Content, Footer, Notice, Script, Style};
 
 
 View::setProps([
@@ -12,4 +12,5 @@ View::setProps([
     "footer" => new Footer,
     "notices" => new Notice,
     "styles" => new Style,
+    "scripts" => new Script
 ]);
