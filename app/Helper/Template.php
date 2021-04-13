@@ -4,6 +4,7 @@
 namespace App\Helper;
 
 
+use App\Helper\View\Script;
 use App\Helper\View\Style;
 use App\Interfaces\Templatable;
 
@@ -33,10 +34,13 @@ class Template implements Templatable
         return "default";
     }
 
-    protected function styles()
+    protected function assets()
     {
         collect($this->styles)->each(function ($src, $name) {
             Style::enqueue($name, $src, static::getTemplateTitle());
+        });
+        collect($this->scripts)->each(function ($src, $name) {
+            Script::enqueue($name, $src, static::getTemplateTitle());
         });
     }
 }

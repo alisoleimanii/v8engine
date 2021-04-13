@@ -9,19 +9,19 @@ class Script extends Renderable
 {
     public static Closure $render;
 
-    public static function enqueue($slug, $src, $routes = null, $permission = null, $priority = 0)
+    public static function enqueue($slug, $src, $template, $routes = null, $permission = null, $priority = 0)
     {
-        return prop("scripts")->add(["slug" => $slug, "src" => $src, "permission" => $permission, "priority" => $priority, "routes" => $routes]);
+        return prop("scripts")->add(["slug" => $slug, "template" => $template, "src" => $src, "permission" => $permission, "priority" => $priority, "routes" => $routes]);
     }
 
     public function render($object): ?string
     {
-        return isset(self::$render) ? self::$render->call($this,$object) : "<script src='{$object["src"]}'></script>";
+        return isset(self::$render) ? self::$render->call($this, $object) : "<script src='{$object["src"]}'></script>";
     }
 
-    public function prioritySort(): Renderable
+    public function prioritySort(...$params): Renderable
     {
-        return $this->sortBy("priority");
+        return $this->where("template", $params[0])->sortBy("priority");
     }
 
     public function can($object): bool
