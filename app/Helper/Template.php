@@ -4,6 +4,7 @@
 namespace App\Helper;
 
 
+use App\Helper\View\Style;
 use App\Interfaces\Templatable;
 
 class Template implements Templatable
@@ -14,7 +15,7 @@ class Template implements Templatable
 
     public function blank($content = "", $params = [])
     {
-        return view("template.__blank", ["content" => $content, "template" => static::class, "params" => $params]);
+        return view("template.__blank", array_merge(["content" => $content, "template" => static::class], $params));
     }
 
     public function header($params = [])
@@ -30,5 +31,12 @@ class Template implements Templatable
     public static function getTemplateTitle()
     {
         return "default";
+    }
+
+    protected function styles()
+    {
+        collect($this->styles)->each(function ($src, $name) {
+            Style::enqueue($name, $src, static::getTemplateTitle());
+        });
     }
 }

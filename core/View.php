@@ -19,6 +19,7 @@ class View
      */
     private static self $instance;
     public BladeOne $blade;
+    private array $paths = [];
 
     private function __construct()
     {
@@ -91,12 +92,12 @@ class View
 
     public function addPath($path)
     {
-        $this->blade->setPath([$path, ...$this->getViewPaths()], self::compilePath());
+        $this->blade->setPath($this->paths = [$path, ...$this->paths], self::compilePath());
     }
 
     private function getViewPaths()
     {
-        return array_reverse(
+        return $this->paths = array_reverse(
             array_merge($this->getModulesViewPaths(), [self::baseViewsPath()])
         );
     }
@@ -125,14 +126,18 @@ class View
         $this->blade->directiveRT('prop', function ($prop, $default = null) {
             echo @self::getProp($prop, $default);
         });
-        $this->blade->directiveRT("render", function ($prop) {
+        $this->blade->directiveRT("render", function ($prop, ...$params) {
             $content = "";
             $prop = @self::getProp($prop);
             if ($prop instanceof Renderable) {
                 $content .= $prop->renderPrefix();
-                foreach ($prop->prioritySort() as $item) {
-                    if ($prop->checkRoute($item) and $prop->can($item))
-                        $content .= $prop->render($item);
+                foreach ($prop->prioritySort(...$params) as $item) {
+                    if ($prop->checkRoute($item) and $prop->can($item)) {
+                        $item = $prop->render($item,...$params);
+                        if ($item == "break")
+                            break;
+                        $content .= $item . "\n";
+                    }
                 }
                 $content .= $prop->renderAppend();
             }

@@ -4,6 +4,8 @@
 namespace App\Helper;
 
 
+use App\Interfaces\Commandable;
+
 /**
  * Class Command
  * @package App\Helper
