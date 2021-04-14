@@ -214,11 +214,15 @@ function column($slug, $title, $priority, $data = COLUMN_PROPERTY, $permission =
 
 /**
  * @param string $template
+ * @param Templatable|null $object if is not null means you want register new template
  * @return Templatable
  * Get Template Instance
  */
-function template($template = "default")
+function template($template = "default", Templatable $object = null)
 {
+    if ($object) {
+        container('template.' . $template, $object);
+    }
     /**
      * Change Active Template
      */
@@ -227,6 +231,10 @@ function template($template = "default")
     return container("template.{$template}");
 }
 
+/**
+ * @param $src
+ * @return string
+ */
 function asset($src)
 {
     $url = container("url") ?? container("url", url());

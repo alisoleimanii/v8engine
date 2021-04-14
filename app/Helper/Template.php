@@ -16,7 +16,7 @@ class Template implements Templatable
 
     public function blank($content = "", $params = [])
     {
-        return view("template.__blank", array_merge(["content" => $content, "template" => static::class], $params));
+        return view("template.__blank", ["content" => $content, "template" => static::class, "params" => $params]);
     }
 
     public function header($params = [])

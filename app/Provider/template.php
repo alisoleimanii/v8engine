@@ -8,5 +8,5 @@ $templates->each(function ($template) {
     /**
      * @var $template Template
      */
-    container("template.{$template::getTemplateTitle()}", new $template());
+    template($template::getTemplateTitle(), new $template());
 });
