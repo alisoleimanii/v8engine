@@ -56,18 +56,11 @@ class Menu
 
     private static function render($menu, $hasChild = false)
     {
-        $class = $hasChild ? 'dropdown-toggle' : '';
-        $html = ' <li>
-                   <a href = "' . url($menu["url"]) . '" class="' . $class . '">
-                      <i class="' . $menu["icon"] . '" ></i>
-                       <span > ' . $menu["name"] . '</span>
-                   </a>';
-        return $hasChild ? $html . "<ul>" : $html;
+        return view("modiran.menu",["menu"=>$menu,"hasChild"=>$hasChild]);
     }
 
     private static function closeTags($hasChild = false)
     {
-        return $hasChild ? " </ul>
-                             </li> " : "</li> ";
+        return view("modiran.menu",["close"=>true,"hasChild"=>$hasChild]);
     }
 }
