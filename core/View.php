@@ -127,21 +127,10 @@ class View
             echo @self::getProp($prop, $default);
         });
         $this->blade->directiveRT("render", function ($prop, ...$params) {
-            $content = "";
             $prop = @self::getProp($prop);
             if ($prop instanceof Renderable) {
-                $content .= $prop->renderPrefix();
-                foreach ($prop->prioritySort(...$params) as $item) {
-                    if ($prop->checkRoute($item) and $prop->can($item)) {
-                        $item = $prop->render($item,...$params);
-                        if ($item == "break")
-                            break;
-                        $content .= $item . "\n";
-                    }
-                }
-                $content .= $prop->renderAppend();
+               echo render($prop, $params);
             }
-            echo $content;
         });
     }
 }

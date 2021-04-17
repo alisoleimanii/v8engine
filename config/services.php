@@ -41,12 +41,13 @@ return [
     "View" => "view",
 
     /*
+     * Load Templates
+     */
+    "Template" => "template",
+
+    /*
      * Run Modules
      */
     "Module" => "module",
 
-    /*
-     * Load Templates
-     */
-    "Template" => "template"
 ];

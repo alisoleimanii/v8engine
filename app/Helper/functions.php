@@ -1,7 +1,7 @@
 <?php
 
 use App\Interfaces\Templatable;
-use App\Helper\{Validator, View\Menu};
+use App\Helper\{Validator, View\Menu, Renderable};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
 
@@ -221,6 +221,7 @@ function column($slug, $title, $priority, $data = COLUMN_PROPERTY, $permission =
 function template($template = "default", Templatable $object = null)
 {
     if ($object) {
+        container("templates")->add($template);
         container('template.' . $template, $object);
     }
     /**
@@ -239,4 +240,27 @@ function asset($src)
 {
     $url = container("url") ?? container("url", url());
     return $url . "/" . $src;
+}
+
+
+function render(Renderable $prop, $params)
+{
+    /*
+     * Set Active Render
+     */
+    container("render", $prop);
+    container("render-params", $params);
+
+    $content = $prop->renderPrefix();
+    $prop->prioritySort(...$params)->each(function ($item) use (&$content, $prop, $params) {
+        if ($prop->checkRoute($item) and $prop->can($item)) {
+            $item = $prop->render($item, ...$params);
+            if ($item == "break")
+                return false;
+            $content .= $item . "\n";
+        }
+        return $content;
+    });
+    $content .= $prop->renderAppend();
+    return $content;
 }

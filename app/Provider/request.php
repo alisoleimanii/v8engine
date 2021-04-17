@@ -12,7 +12,7 @@ $container = new Container;
 
 // Create a request from server variables, and bind it to the container; optional
 $request = Request::capture();
-$container->instance('Illuminate\Http\Request', $request);
+$container->instance(Request::class, $request);
 
 // Using Illuminate/Events/Dispatcher here (not required); any implementation of
 // Illuminate/Contracts/Event/Dispatcher is acceptable
@@ -33,5 +33,5 @@ if (file_exists(BASEDIR . "/router.php"))
 $app = App::instance();
 
 // Set Router & Request in App Instance
-$app->router = $router;
-$app->request = $request;
+container("router", $router);
+container("request", $request);

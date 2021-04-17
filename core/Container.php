@@ -6,7 +6,7 @@ namespace Core;
 
 class Container
 {
-    private static array $containers = [];
+    public static array $containers = [];
 
     public static function add($key, $value)
     {

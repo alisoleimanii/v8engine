@@ -6,6 +6,10 @@
 
 namespace Core;
 
+/*
+ * Set Modules Directory
+ */
+define("MODULES_DIR", BASEDIR . "/" . env('MODULE_PATH', 'modules'));
 
 use App\Exception\V8Exception;
 use App\Interfaces\Bootable;
@@ -20,6 +24,7 @@ use Illuminate\{
 use Exception;
 use Throwable;
 
+
 /**
  * Class App
  * @package Core
@@ -33,8 +38,6 @@ final class App
      * @var App $instance Main Application Instance
      */
     private static self $instance;
-    public Router       $router;
-    public Request      $request;
     public Validator    $validator;
     public UrlGenerator $url;
 
@@ -44,7 +47,7 @@ final class App
 
     public static function setConnection($connection)
     {
-        Container::add("db", $connection);
+        container("db", $connection);
     }
 
     public static function instance()
@@ -56,7 +59,7 @@ final class App
     {
         $app = self::instance();
         if (!isset($app->url))
-            $app->url = new UrlGenerator($app->router->getRoutes(), $app->request);
+            $app->url = new UrlGenerator(self::router()->getRoutes(), self::request());
         return $app->url->to($uri, $extra, self::urlProtocol());
     }
 
@@ -86,12 +89,12 @@ final class App
 
     public static function router()
     {
-        return self::instance()->router;
+        return app('router');
     }
 
     public static function request()
     {
-        return self::instance()->request;
+        return app('request');
     }
 
     public static function validator()
