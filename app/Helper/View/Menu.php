@@ -56,11 +56,11 @@ class Menu
 
     private static function render($menu, $hasChild = false)
     {
-        return view("modiran.menu",["menu"=>$menu,"hasChild"=>$hasChild]);
+        return view("__menu",["menu"=>$menu,"hasChild"=>$hasChild]);
     }
 
     private static function closeTags($hasChild = false)
     {
-        return view("modiran.menu",["close"=>true,"hasChild"=>$hasChild]);
+        return view("__menu",["close"=>true,"hasChild"=>$hasChild]);
     }
 }
