@@ -56,7 +56,7 @@ class Menu
 
     private static function render($menu, $hasChild = false)
     {
-        return view("__menu",["menu"=>$menu,"hasChild"=>$hasChild]);
+        return view("__menu",["menu"=>$menu,"hasChilgid"=>$hasChild]);
     }
 
     private static function closeTags($hasChild = false)
