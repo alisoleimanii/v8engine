@@ -6,11 +6,6 @@
 
 namespace Core;
 
-/*
- * Set Modules Directory
- */
-define("MODULES_DIR", BASEDIR . "/" . env('MODULE_PATH', 'modules'));
-
 use App\Exception\V8Exception;
 use App\Interfaces\Bootable;
 use Carbon\Carbon;
@@ -125,9 +120,6 @@ final class App
 
         //Check Application Base Directory
         defined("BASEDIR") or new Exception('BASEDIR not Defined');
-
-        //Define Engine Main Directory Path
-        define('ENGINE_PATH', __DIR__ . '/..');
 
         //Create Bootable
         $boot = new $bootable();

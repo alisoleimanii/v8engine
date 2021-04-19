@@ -6,6 +6,27 @@ use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
 
 /**
+ * Engine Main Directory Path
+ */
+define('ENGINE_PATH', __DIR__ . '/..');
+
+/**
+ * Renderable Default Render
+ */
+define("RENDER_DEFAULT", "default");
+
+/**
+ * Renderable Break Render
+ */
+define("RENDER_BREAK", "break");
+
+/**
+ * Modules Directory
+ */
+define("MODULES_DIR", BASEDIR . "/" . env('MODULE_PATH', 'modules'));
+
+
+/**
  * Get Engine Main Class Instance
  * @param $param
  * @return App|mixed

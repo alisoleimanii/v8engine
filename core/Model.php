@@ -3,6 +3,7 @@
 
 namespace Core;
 
+use App\Helper\Observer;
 use App\Helper\Submitter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,6 +35,11 @@ class Model extends BaseModel
     public static array $updateRules = [];
     public static array $createRules = [];
 
+    protected static function booted()
+    {
+        static::observe(Observer::class);
+        parent::booted();
+    }
 
     /**
      * @param $id

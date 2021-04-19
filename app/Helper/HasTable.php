@@ -54,7 +54,7 @@ trait HasTable
     public static function renderTable(Collection $records, $id = null)
     {
         $id = $id ? $id : str_replace("\\", "_", static::class);
-        Footer::create("table", "<script>var table = $('#{$id}').DataTable({'pageLength': 25})</script>");
+        Footer::create("table", "<script>var {$id} = $('#{$id}').DataTable({'pageLength': 25})</script>");
         return view("table", ["records" => $records, "header" => self::renderTableHeader(), "body" => self::renderTableBody($records), "id" => $id]);
     }
 
@@ -71,7 +71,7 @@ trait HasTable
     private function renderRow($column, $record)
     {
         if (self::condition($column))
-            return "<td>" . self::getData($column, $record) . "</td>";
+            return "<td class='{$column['slug']}'>" . self::getData($column, $record) . "</td>";
         return null;
     }
 
@@ -82,7 +82,7 @@ trait HasTable
             /**
              * @var HasTable $record
              */
-            $body .= "<tr class=''>";
+            $body .= "<tr class='t-row' data-row='$record->id'>";
             foreach (self::table()->sortBy("priority") as $column) {
                 $body .= $record->renderRow($column, $record);
             }

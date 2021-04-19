@@ -45,6 +45,9 @@ trait Metable
         return $this->metas()->where(Meta::KEY, $key)->first();
     }
 
+    //1618750377
+    //1618750226
+
     public function setMeta($key, $value, $update = true)
     {
         $meta = $this->getMeta($key);
@@ -140,6 +143,7 @@ trait Metable
         self::$metaFields->map(function (MetaField $field) use ($model, $request) {
             $field->callController($model, $request, $field->type != "file" ? $request->input($field->key) : $request->file($field->key));
         });
+        Event::listen($model::class . ".updated", $model);
     }
 
     public static function renderSubmitter($fields, $url, $method, $filesFields, $optional, $additional = [], $autoResponse = true, $loading = true, $after = "")

@@ -5,11 +5,14 @@
  */
 
 use Core\App;
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Events\Dispatcher;
 
 $connection = new Manager;
 $connection->addConnection(config("database"));
+$connection->setEventDispatcher(new Dispatcher(new Container));
 $connection->setAsGlobal();
 $connection->bootEloquent();
 App::setConnection($connection);
