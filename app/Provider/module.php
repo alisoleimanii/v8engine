@@ -2,5 +2,4 @@
 
 use Core\{Module};
 
-
 Module::run();

@@ -34,9 +34,9 @@ final class ServiceProviderBootstrap
         require_once self::PROVIDERS_DIR . "/" . $provider . ".php";
     }
 
-    private function initialize()
+    private function initialize(?array $services)
     {
-        foreach ($this->getServiceList() as $service) {
+        foreach ($services ?? $this->getServiceList() as $service) {
             $this->load($service);
         }
         return $this;
@@ -44,7 +44,6 @@ final class ServiceProviderBootstrap
 
     public static function run($services = null)
     {
-        is_null($services) ?: self::$services = collect($services);
-        return (new self)->initialize();
+        return (new self)->initialize($services);
     }
 }

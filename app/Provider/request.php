@@ -12,6 +12,7 @@ $container = new Container;
 
 // Create a request from server variables, and bind it to the container; optional
 $request = Request::capture();
+
 $container->instance(Request::class, $request);
 
 // Using Illuminate/Events/Dispatcher here (not required); any implementation of
@@ -31,7 +32,6 @@ if (file_exists(BASEDIR . "/router.php"))
 
 // Create App Instance
 $app = App::instance();
-
 // Set Router & Request in App Instance
 container("router", $router);
 container("request", $request);
