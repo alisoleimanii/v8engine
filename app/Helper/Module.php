@@ -96,7 +96,6 @@ class Module
             $file = fopen(ModuleManager::getCacheDir() . "/" . $this->module . ".json", "w");
             fwrite($file, json_encode($this->config));
         } catch (Exception $exception) {
-
         } finally {
             !isset($file) or fclose($file);
         }
@@ -110,7 +109,7 @@ class Module
 
     private function setConfig($config = null, $cache = true)
     {
-        file_put_contents($this->path . "/config.json", $config ?? $this->config);
+        file_put_contents($this->path . "/config.json", json_encode($config ?? $this->config));
         !$cache or $this->setCache();
     }
 
