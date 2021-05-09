@@ -10,7 +10,8 @@
     "vlucas/phpdotenv": "^5.2@dev",
     "hekmatinasser/verta": "dev-master",
     "predis/predis": "2.0.x-dev",
-    "guzzlehttp/guzzle": "^7.1@dev"
+    "guzzlehttp/guzzle": "^7.1@dev",
+    "ext-json": "*"
   },
   "config": {
     "platform": {

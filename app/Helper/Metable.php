@@ -42,7 +42,7 @@ trait Metable
 
     public function getMeta($key)
     {
-        return $this->metas()->where(Meta::KEY, $key)->first();
+        return $this->metas->where(Meta::KEY, $key)->first();
     }
 
     //1618750377
@@ -62,6 +62,7 @@ trait Metable
     {
         if (!isset($this->metaMap) and !$reload)
             $this->metaMap = $this->metas->keyBy(Meta::KEY);
+
         return $this->metaMap;
     }
 

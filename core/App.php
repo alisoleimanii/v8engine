@@ -82,7 +82,7 @@ final class App
         define("TIMEZONE", env("TIMEZONE", "Asia/Tehran"));
     }
 
-    public static function router()
+    public static function router() : Router
     {
         return app('router');
     }

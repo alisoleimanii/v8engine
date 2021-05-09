@@ -34,4 +34,9 @@ abstract class Renderable extends Collection
     {
         return "";
     }
+
+    public function paint()
+    {
+        return render($this,[]);
+    }
 }
