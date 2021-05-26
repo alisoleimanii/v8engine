@@ -8,6 +8,7 @@ use App\Command\MakeMigration;
 use App\Command\MakeModel;
 use App\Command\MakeModule;
 use App\Command\Migrate;
+use App\Command\ComposerDump;
 use App\Command\Route;
 
 return [
@@ -55,5 +56,10 @@ return [
     /*
      * Make Middleware For Modules
      */
-    "make:middleware" => MakeMiddleware::class
+    "make:middleware" => MakeMiddleware::class,
+
+    /*
+     * Composer Dumpauto For Modules
+     */
+    "composer:dump" => ComposerDump::class
 ];
