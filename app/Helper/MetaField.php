@@ -4,6 +4,7 @@
 namespace App\Helper;
 
 
+use App\Helper\View\Field;
 use App\Model\Config;
 use Core\Model;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class MetaField
 {
     public string $key;
     public string $name;
-    public string $type = "text";
+    public $type = "text";
     public array $rules = [];
     public object $options;
     public array $css;
@@ -119,6 +120,8 @@ class MetaField
         $this->model = $model;
         $this->config = $config;
         $view = '';
+        if ($this->type instanceof Field)
+            return $this->type->render($model, $this, $update);
         if (in_array($this->type, self::$inputAble))
             $view = "assets.meta.input";
         elseif ($this->type == "select")
