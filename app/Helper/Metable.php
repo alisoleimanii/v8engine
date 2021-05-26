@@ -144,7 +144,7 @@ trait Metable
         self::$metaFields->map(function (MetaField $field) use ($model, $request) {
             $field->callController($model, $request, $field->type != "file" ? $request->input($field->key) : $request->file($field->key));
         });
-        Event::listen($model::class . ".updated", $model);
+        Event::listen(get_class($model) . ".updated", $model);
     }
 
     public static function renderSubmitter($fields, $url, $method, $filesFields, $optional, $additional = [], $autoResponse = true, $loading = true, $after = "")

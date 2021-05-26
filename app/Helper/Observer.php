@@ -16,7 +16,7 @@ class Observer
      */
     public function created(Model $model)
     {
-        Event::listen($model::class . ".created", $model);
+        Event::listen(get_class($model) . ".created", $model);
     }
 
     /**
@@ -27,7 +27,7 @@ class Observer
      */
     public function updated(Model $model)
     {
-        Event::listen($model::class . ".updated", $model);
+        Event::listen(get_class($model) . ".updated", $model);
     }
 
     /**
@@ -38,7 +38,7 @@ class Observer
      */
     public function deleted(Model $model)
     {
-        Event::listen($model::class . ".deleted", $model);
+        Event::listen(get_class($model) . ".deleted", $model);
     }
 
     /**
@@ -49,6 +49,6 @@ class Observer
      */
     public function forceDeleted(Model $model)
     {
-        Event::listen($model::class . ".forceDeleted", $model);
+        Event::listen(get_class($model). ".forceDeleted", $model);
     }
 }
