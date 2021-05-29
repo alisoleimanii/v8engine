@@ -23,7 +23,7 @@ class Select extends Field
 
     public function render($model, $field, $update = false): string
     {
-        $this->options = is_callable($this->options) ? Closure::fromCallable($this->options)->call($model, $field, $update) : $this->options;
+        $this->options = is_callable($this->options) ? Closure::fromCallable($this->options)($model, $field, $update) : $this->options;
         $select = $this;
         return view(static::$view, compact("model", "field", "update", "select"));
     }
