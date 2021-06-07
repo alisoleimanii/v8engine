@@ -36,11 +36,16 @@ class Template implements Templatable
 
     protected function assets()
     {
-        collect($this->styles)->each(function ($src, $name) {
-            Style::enqueue($name, $src, static::getTemplateTitle());
+        $i = 0;
+        collect($this->styles)->each(function ($src, $name) use (&$i) {
+            Style::enqueue($name, $src, static::getTemplateTitle(), null, null, $i);
+            $i++;
         });
-        collect($this->scripts)->each(function ($src, $name) {
-            Script::enqueue($name, $src, static::getTemplateTitle());
+        $i = 0;
+        collect($this->scripts)->each(function ($src, $name) use (&$i) {
+            Script::enqueue($name, $src, static::getTemplateTitle(), null, null, $i);
+            $i++;
+
         });
     }
 }
