@@ -195,8 +195,10 @@ function prop($prop, $default = null)
  */
 function abort($message = null, $code = null)
 {
-    http_response_code($code);
-    die($message);
+    if (is_int($code)) {
+        http_response_code($code);
+    }
+    die(view('abort', compact("message", "code")));
 }
 
 /**

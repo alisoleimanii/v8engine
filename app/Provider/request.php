@@ -7,9 +7,7 @@
 use Core\App;
 use Illuminate\{Container\Container, Events\Dispatcher, Http\Request, Routing\Router};
 
-// Create a service container
-$container = new Container;
-
+$container = Container::getInstance();
 // Create a request from server variables, and bind it to the container; optional
 $request = Request::capture();
 

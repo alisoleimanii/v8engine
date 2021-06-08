@@ -6,6 +6,11 @@ return [
     "DotEnv" => "env",
 
     /*
+     * initialize Basics
+     */
+    "Core" => "core",
+
+    /*
      * Create Redis Connection
      */
     "Redis" => "redis",
