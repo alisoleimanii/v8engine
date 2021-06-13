@@ -29,7 +29,7 @@ class Scheduler
     {
         $list = static::getRunList();
         $list->{$cron}[] = time();
-        if (count($list->{$cron}))
+        if (count($list->{$cron}) > 10)
             array_shift($list->cron);
         static::setRunList($list);
     }
@@ -42,7 +42,7 @@ class Scheduler
     public static function getRunList($cron = null)
     {
         $path = env("STORAGE_PATH", BASEDIR . "/storage") . "/engine/scheduler.json";
-        $scheduler = json_decode(file_get_contents($path));
+        $scheduler = @json_decode(@file_get_contents($path));
         if (!$scheduler) {
             file_put_contents($path, "{}");
             return new \stdClass;
