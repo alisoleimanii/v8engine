@@ -93,7 +93,8 @@ class Module
     public function setCache()
     {
         try {
-            $file = fopen(ModuleManager::getCacheDir() . "/" . $this->module . ".json", "w");
+            $filename = ModuleManager::getCacheDir() . "/" . $this->module . ".json";
+            $file = fopen($filename, "w");
             fwrite($file, json_encode($this->config));
         } catch (Exception $exception) {
         } finally {

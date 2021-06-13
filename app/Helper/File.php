@@ -23,12 +23,13 @@ class File
         return $self;
     }
 
-    public function store($folder = null)
+    public function store($folder = null, $permission = 0775)
     {
         $target = View::baseViewsPath() . "/assets/";
         $folder ? $target .= $folder . "/" : null;
         $name = uniqid() . "." . $this->file->getClientOriginalExtension();
         (new Filesystem())->move($this->file->path(), $target . $name);
+        chmod($target . $name, $permission);
         return $folder . "/" . $name;
     }
 }

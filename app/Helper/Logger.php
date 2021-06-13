@@ -16,6 +16,7 @@ class Logger extends BaseLogger
         $this->pushHandler(new StreamHandler($logDir . "/" . date("Y-m-d") . ".log", Logger::DEBUG, false))->logger();
 //        $this->pushHandler(new FirePHPHandler());
         return $this;
+
     }
 
     public function logger()

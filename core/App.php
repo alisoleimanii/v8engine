@@ -33,7 +33,7 @@ final class App
      * @var App $instance Main Application Instance
      */
     private static self $instance;
-    public Validator    $validator;
+    public Validator $validator;
     public UrlGenerator $url;
 
     private function __construct()
@@ -82,7 +82,7 @@ final class App
         define("TIMEZONE", env("TIMEZONE", "Asia/Tehran"));
     }
 
-    public static function router() : Router
+    public static function router(): Router
     {
         return app('router');
     }

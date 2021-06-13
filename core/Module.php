@@ -84,7 +84,7 @@ final class Module
 
     public static function getCacheDir()
     {
-        return env("MODULE_CACHE_DIR", __DIR__ . "/../cache/modules");
+        return env("MODULE_CACHE_DIR", BASEDIR . "/storage/engine/modules");
     }
 
 //    private function getModuleConfig($module)
