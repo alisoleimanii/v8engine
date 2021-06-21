@@ -29,8 +29,7 @@ class Option
     {
         $this->defaultValue = $value;
         $this->update = $update;
-        $option = $this;
-        return view(static::$view, compact("value", "update", "option"));
+        return view(static::$view, ["option" => $this]);
     }
 
     public function isSelected(): string

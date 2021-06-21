@@ -117,11 +117,23 @@ class MetaField
 
     public function render($update = false, $model = null, $config = false)
     {
+        $GLOBALS["model"] = $model;
         $this->model = $model;
         $this->config = $config;
         $view = '';
-        if ($this->type instanceof Field)
-            return $this->type->render($model, $this, $update);
+        if ($this->type instanceof Field) {
+            $this->type->setAttributes([
+                "class" => $this->getCssClasses(),
+                "id" => $this->key,
+                "name" => $this->key,
+                'placeholder' => $this->name
+            ]);
+            $this->type->setTitle($this->name);
+
+            if ($update)
+                $this->type->setValue($this->getValue());
+            return $this->type->render();
+        }
         if (in_array($this->type, self::$inputAble))
             $view = "assets.meta.input";
         elseif ($this->type == "select")

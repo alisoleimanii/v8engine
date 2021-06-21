@@ -12,7 +12,9 @@
     "predis/predis": "2.0.x-dev",
     "guzzlehttp/guzzle": "^7.1@dev",
     "ext-json": "*",
-    "monolog/monolog": "^2.2"
+    "monolog/monolog": "^2.2",
+    "illuminate/queue": "^8.47",
+    "illuminate/redis": "^8.47"
   },
   "config": {
     "platform": {

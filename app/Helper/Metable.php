@@ -4,6 +4,7 @@
 namespace App\Helper;
 
 
+use App\Helper\View\Field;
 use App\Model\Meta;
 use Core\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -73,7 +74,7 @@ trait Metable
                 self::$metaFields = new Collection();
             }
             $field->model = static::class;
-            $field->setController($closure ? $closure : function (Model $user, Request $request, $meta, MetaField $metaField) {
+            $field->setController($closure ?: function (Model $user, Request $request, $meta, MetaField $metaField) {
                 $user->setMeta($metaField->key, $meta);
             });
             self::$metaFields->add($field);
@@ -109,7 +110,7 @@ trait Metable
         if (!isset(self::$metaFields))
             self::$metaFields = new Collection();
         return self::$metaFields->filter(function (MetaField $field) {
-            return $field->type == "file";
+            return $field->type == "file" or ($field->type instanceof Field and @$field->type->type == "file");
         })->pluck("key");
     }
 

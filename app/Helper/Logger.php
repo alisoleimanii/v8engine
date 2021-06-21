@@ -19,6 +19,9 @@ class Logger extends BaseLogger
 
     }
 
+    /**
+     * Log All Errors When Debug = 0
+     */
     public function logger()
     {
         register_shutdown_function(function () {

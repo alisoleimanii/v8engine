@@ -16,15 +16,15 @@ class Select extends Field
      * Select constructor.
      * @param Option[]|callable $options
      */
-    public function __construct($options)
+    public function __construct($options, $attributes = [])
     {
         $this->options = $options;
+        parent::__construct($attributes);
     }
 
-    public function render($model, $field, $update = false): string
+    public function render(): string
     {
-        $this->options = is_callable($this->options) ? Closure::fromCallable($this->options)($model, $field, $update) : $this->options;
-        $select = $this;
-        return view(static::$view, compact("model", "field", "update", "select"));
+        $this->options = is_callable($this->options) ? Closure::fromCallable($this->options)() : $this->options;
+        return view(static::$view, ["field" => $this]);
     }
 }
