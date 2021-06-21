@@ -59,6 +59,11 @@ class MetaField
         return $this;
     }
 
+    public function getType()
+    {
+        return $this->type instanceof Field ? $this->type->type : $this->type;
+    }
+
     public function setController($closure)
     {
         $this->controller = $closure;

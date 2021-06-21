@@ -74,9 +74,13 @@ trait Metable
                 self::$metaFields = new Collection();
             }
             $field->model = static::class;
-            $field->setController($closure ?: function (Model $user, Request $request, $meta, MetaField $metaField) {
-                $user->setMeta($metaField->key, $meta);
-            });
+            $field->setController($closure ?: ($field->getType() != "file" ? (function (Model $model, Request $request, $meta, MetaField $metaField) {
+                $model->setMeta($metaField->key, $meta);
+            }) : (function (Model $model, Request $request, $file, MetaField $metaField) {
+                if ($file) {
+                    $model->setMeta($metaField->key, url("assets/" . File::instance($file)->store("images")));
+                }
+            })));
             self::$metaFields->add($field);
             self::$creatable[] = $field->key;
             self::$updatable[] = $field->key;
@@ -110,7 +114,7 @@ trait Metable
         if (!isset(self::$metaFields))
             self::$metaFields = new Collection();
         return self::$metaFields->filter(function (MetaField $field) {
-            return $field->type == "file" or ($field->type instanceof Field and @$field->type->type == "file");
+            return $field->getType() == "file";
         })->pluck("key");
     }
 
@@ -143,7 +147,7 @@ trait Metable
         if (!isset(self::$metaFields))
             self::$metaFields = new Collection();
         self::$metaFields->map(function (MetaField $field) use ($model, $request) {
-            $field->callController($model, $request, $field->type != "file" ? $request->input($field->key) : $request->file($field->key));
+            $field->callController($model, $request, $field->getType() != "file" ? $request->input($field->key) : $request->file($field->key));
         });
         Event::listen(get_class($model) . ".updated", $model);
     }
