@@ -14,6 +14,7 @@ class Input extends Field
 
     public function __construct(array $attributes = [], $type = 'text')
     {
+        $this->setClasses("form-control");
         parent::__construct($attributes);
         $this->attribute(static::TYPE, $type);
     }

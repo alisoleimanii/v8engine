@@ -4,6 +4,8 @@
 namespace App\Helper\View;
 
 
+use App\Helper\View\Filed\Label;
+
 abstract class Field
 {
     /**
@@ -24,9 +26,9 @@ abstract class Field
     public string $grid = 'col-md-12';
 
     /**
-     * @var bool $renderLabel Render Input Label?
+     * @var Label $label Render Input Label?
      */
-    public bool $renderLabel = true;
+    public ?Label $label;
 
     /**
      * Field Title
@@ -34,19 +36,42 @@ abstract class Field
      */
     public string $title;
 
-
     /**
      * @var string $type Field Type (text,file,number,...)
      */
     public string $type = 'text';
 
     /**
+     * @var bool $formGroup
+     */
+    public bool $formGroup = true;
+
+    /**
      * Field constructor.
      * @param array $attributes
      */
-    public function __construct(array $attributes = [])
+    public function __construct(array $attributes = [], $label = null)
     {
         $this->setAttributes($attributes);
+        $this->setLabel($label);
+    }
+
+    /**
+     * @param Label|null $label
+     * @return $this
+     */
+    public function setLabel($label = null)
+    {
+        $this->label = $label !== false ? $label : null;
+        return $this;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getLabel()
+    {
+        return $this->label ?? new Label($this->getTitle(), null, ['for' => $this->getId()]);
     }
 
     /**
@@ -62,7 +87,7 @@ abstract class Field
      */
     public function setAttributes(array $attributes = [])
     {
-        $this->attributes = array_merge($attributes, $this->attributes);
+        $this->attributes = array_merge($this->attributes, $attributes);
         return $this;
     }
 
@@ -109,6 +134,25 @@ abstract class Field
     {
         return $this->attribute('id');
     }
+
+
+    /**
+     * @return bool
+     */
+    public function isFormGroup(): bool
+    {
+        return $this->formGroup;
+    }
+
+    /**
+     * @param bool $formGroup
+     */
+    public function setFormGroup(bool $formGroup)
+    {
+        $this->formGroup = $formGroup;
+        return $this;
+    }
+
 
     /**
      * Set Css Classes
@@ -196,6 +240,7 @@ abstract class Field
      */
     public function __toString()
     {
+        $this->attribute('name') ?? $this->attribute('name', $this->getId());
         return $this->render();
     }
 }

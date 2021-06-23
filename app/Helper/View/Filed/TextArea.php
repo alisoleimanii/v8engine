@@ -10,8 +10,10 @@ class TextArea extends Field
 {
     public static string $view = "assets.field.textarea";
 
-    public function __construct()
+    public function __construct(array $attributes = [], $label = null)
     {
+        $this->setClasses("form-control");
+        parent::__construct($attributes, $label = null);
         $this->attribute('rows', 4);
     }
 

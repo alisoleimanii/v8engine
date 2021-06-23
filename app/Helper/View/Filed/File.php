@@ -12,10 +12,10 @@ class File extends Field
 
     public string $type = 'file';
 
-    public function __construct($attributes = [])
+    public function __construct($attributes = [], $label = null)
     {
-        parent::__construct($attributes);
         $this->setClasses("form-control file-input");
+        parent::__construct($attributes, $label);
     }
 
     public function render(): string

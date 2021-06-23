@@ -8,18 +8,19 @@ use App\Helper\Submitter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @method static static create($array)
  * @method static static first($columns = ["*"])
  * @method static static find($id, $columns = ["*"])
- * @method static Collection get($columns = "")
- * @method static static where(...$condition)
- * @method static static with(...$condition)
- * @method static static orderBy($column, $order)
- * @method static static forPage($page, $perPage)
- * @method static static whereIn(...$condition)
- * @method static whereHas(string $string, $param)
+ * @method Collection get($columns = "")
+ * @method Builder where(...$condition)
+ * @method Builder with(...$condition)
+ * @method Builder orderBy($column, $order)
+ * @method Builder forPage($page, $perPage)
+ * @method Builder whereIn(...$condition)
+ * @method Builder whereHas(string $string, $param)
  * @property mixed id
  * @property string $created_at_p persian date
  * @property string $updated_at_p persian date

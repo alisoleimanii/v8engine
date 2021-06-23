@@ -19,6 +19,7 @@ class Select extends Field
     public function __construct($options, $attributes = [])
     {
         $this->options = $options;
+        $this->setClasses("form-control");
         parent::__construct($attributes);
     }
 
