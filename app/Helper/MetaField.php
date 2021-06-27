@@ -125,20 +125,22 @@ class MetaField
         $GLOBALS["model"] = $model;
         $this->model = $model;
         $this->config = $config;
-        $view = '';
         if ($this->type instanceof Field) {
             $this->type->setAttributes([
-                "class" => $this->getCssClasses(),
-                "id" => $this->key,
-                "name" => $this->key,
+                'class' => $this->getCssClasses(),
+                'id' => $this->key,
+                'name' => $this->key,
                 'placeholder' => $this->name
             ]);
             $this->type->setTitle($this->name);
-
+            !in_array('required', $this->rules) ?: $this->type->attribute("date-require", 1);
             if ($update)
                 $this->type->setValue($this->getValue());
             return $this->type->render();
         }
+
+        $view = '';
+
         if (in_array($this->type, self::$inputAble))
             $view = "assets.meta.input";
         elseif ($this->type == "select")

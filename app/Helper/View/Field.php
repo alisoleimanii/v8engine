@@ -5,9 +5,12 @@ namespace App\Helper\View;
 
 
 use App\Helper\View\Filed\Label;
+use Illuminate\Support\Traits\Macroable;
 
 abstract class Field
 {
+    use Macroable;
+
     /**
      * @var array Html Attributes
      * @example ["rows" => 4]
