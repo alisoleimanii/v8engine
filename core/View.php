@@ -116,7 +116,7 @@ class View
 
     private function directives()
     {
-        $url = url();
+        $url = App::router() ? url() : "/";
         $this->blade->directiveRT("assets", function () use ($url) {
             echo $url . "/assets";
         });
@@ -129,7 +129,7 @@ class View
         $this->blade->directiveRT("render", function ($prop, ...$params) {
             $prop = @self::getProp($prop);
             if ($prop instanceof Renderable) {
-               echo render($prop, $params);
+                echo render($prop, $params);
             }
         });
     }

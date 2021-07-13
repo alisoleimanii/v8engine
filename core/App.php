@@ -82,7 +82,7 @@ final class App
         define("TIMEZONE", env("TIMEZONE", "Asia/Tehran"));
     }
 
-    public static function router(): Router
+    public static function router(): ?Router
     {
         return app('router');
     }
@@ -116,8 +116,6 @@ final class App
      */
     public static function boot(string $bootable, $args = null)
     {
-        //#Todo Check Paths
-
         //Check Application Base Directory
         defined("BASEDIR") or new Exception('BASEDIR not Defined');
 

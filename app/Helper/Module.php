@@ -3,6 +3,7 @@
 
 namespace App\Helper;
 
+use App\Exception\V8Exception;
 use Illuminate\Database\Capsule\Manager;
 use stdClass;
 use Core\Module as ModuleManager;
@@ -41,7 +42,7 @@ class Module
             require_once $routerPath;
     }
 
-    private function loadMainClass()
+    public function loadMainClass()
     {
         require_once $this->path . "/" . $this->module . ".php";
     }
@@ -92,14 +93,13 @@ class Module
 
     public function setCache()
     {
-        try {
-            $filename = ModuleManager::getCacheDir() . "/" . $this->module . ".json";
-            $file = fopen($filename, "w");
-            fwrite($file, json_encode($this->config));
-        } catch (Exception $exception) {
-        } finally {
-            !isset($file) or fclose($file);
+        $filename = ModuleManager::getCacheDir() . "/" . $this->module . ".json";
+        $file = fopen($filename, "w");
+        if (!is_resource($file)) {
+            throw new V8Exception("module.permission.error", "Module {$filename} Access Denied");
         }
+        fwrite($file, json_encode($this->config));
+
         return $this->config;
     }
 

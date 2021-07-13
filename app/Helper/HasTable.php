@@ -68,7 +68,7 @@ trait HasTable
         return $header;
     }
 
-    private function renderRow($column, $record)
+    public function renderRow($column, $record)
     {
         if (self::condition($column))
             return "<td class='{$column['slug']}'>" . self::getData($column, $record) . "</td>";

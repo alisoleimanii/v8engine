@@ -78,9 +78,11 @@ function view($view, $data = [])
  * @param null $locale
  * @return array|mixed|string|null
  */
-function __($key, $default = null, $locale = null)
-{
-    return Translation::instance()->translate($key, $locale, $default);
+if (!function_exists('__')) {
+    function __($key, $default = null, $locale = null)
+    {
+        return Translation::instance()->translate($key, $locale, $default);
+    }
 }
 
 /**
