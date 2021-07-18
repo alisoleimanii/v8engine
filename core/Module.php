@@ -53,44 +53,14 @@ final class Module
 
     private function startModules()
     {
-
         collect(self::$modules)->each(fn(SingleModule $module) => $module->init());
-//        foreach (self::getModules() as $moduleDir => $moduleClass) {
-//            $module = $this->startModule($moduleClass);
-//            if ($this->isFirstTimeRun($moduleDir))
-//                if (method_exists($module, "onActivate"))
-//                    $module->onActivate();
-//        }
     }
-
-//    private function isFirstTimeRun($moduleDir)
-//    {
-//        $moduleConfig = $this->getModuleConfig($moduleDir);
-//        if (isset($moduleConfig->firstTime) and $moduleConfig->firstTime) {
-//            $moduleConfig->firstTime = false;
-//            $this->setModuleConfig($moduleDir, json_encode($moduleConfig));
-//            return true;
-//        }
-//        if (isset($moduleConfig->mainTable) and !Manager::schema()->hasTable($moduleConfig->mainTable) and env("DEBUG", false)) {
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    private function setModuleConfig($module, $config)
-//    {
-//        file_put_contents(self::getModuleDir($module) . "/config.json", $config);
-//    }
 
     public static function getCacheDir()
     {
         return env("MODULE_CACHE_DIR", BASEDIR . "/storage/engine/modules");
     }
 
-//    private function getModuleConfig($module)
-//    {
-//        return json_decode(file_get_contents(self::getModuleDir($module) . "/config.json"));
-//    }
 
 
     private function initialize()

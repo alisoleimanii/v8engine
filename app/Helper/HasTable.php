@@ -58,6 +58,12 @@ trait HasTable
         return view("table", ["records" => $records, "header" => self::renderTableHeader(), "body" => self::renderTableBody($records), "id" => $id]);
     }
 
+    public static function deleteTableColumn($slug)
+    {
+        $table = self::table();
+        self::$items = $table->where('slug', "!=", $slug);
+    }
+
     private static function renderTableHeader()
     {
         $header = '';

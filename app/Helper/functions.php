@@ -289,3 +289,8 @@ function render(Renderable $prop, $params)
     $content .= $prop->renderAppend();
     return $content;
 }
+
+function storagePath($path = "")
+{
+    return env('STORAGE_PATH', BASEDIR . "/storage/" . $path);
+}
