@@ -121,7 +121,6 @@ final class App
     {
         //Check Application Base Directory
         defined("BASEDIR") or new Exception('BASEDIR not Defined');
-
         //Create Bootable
         $boot = new $bootable();
 

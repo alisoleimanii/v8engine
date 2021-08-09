@@ -14,7 +14,7 @@ class Validator
     {
         $validator = App::validator()->make($data, $rules, $messages, $attributes);
         if ($validator->fails())
-            return $exit ? die((new Submitter(false, lang("validation.msg", "Validate Fails")))->setDataAttribute($validator->errors())->send()) : $validator;
-        return true;
+            return $exit ? die((new Submitter(false, __("validation.msg", "Validate Fails")))->setDataAttribute($validator->errors())->send()) : $validator;
+        return $validator;
     }
 }
