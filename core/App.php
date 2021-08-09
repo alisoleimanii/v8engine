@@ -87,7 +87,10 @@ final class App
         return app('router');
     }
 
-    public static function request()
+    /**
+     * @return Request
+     */
+    public static function request() 
     {
         return app('request');
     }

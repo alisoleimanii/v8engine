@@ -20,8 +20,8 @@ trait Singleton
     public static function instance()
     {
         if (!isset(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
+            static::$instance = new self();
+        return static::$instance;
     }
 
 }

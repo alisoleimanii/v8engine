@@ -21,6 +21,7 @@ use Illuminate\Database\Query\Builder;
  * @method Builder forPage($page, $perPage)
  * @method Builder whereIn(...$condition)
  * @method Builder whereHas(string $string, $param)
+ * @method Builder whereRaw(string $string)
  * @property mixed id
  * @property string $created_at_p persian date
  * @property string $updated_at_p persian date
