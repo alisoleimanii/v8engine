@@ -20,7 +20,12 @@ class %name
     /**
      * Run on First Time or When Main Table not Exists (Debug Mode)
      */
-    public function onActivate()
+    public static function onActivate()
+    {
+        // migrate("%table",dirname(__FILE__));
+    }
+
+    public static function onUpdate()
     {
         // migrate("%table",dirname(__FILE__));
     }
