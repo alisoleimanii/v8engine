@@ -7,6 +7,7 @@ use Closure;
 use Core\Container;
 use Exception;
 use Illuminate\Support\Collection;
+use Opis\Closure\ReflectionClosure;
 
 class Event
 {
@@ -46,7 +47,7 @@ class Event
                 /**
                  * @var $callback Closure
                  */
-                $callback->call($newThis, ...$params);
+              $callback->call($newThis, ...$params);
             } catch (Exception $exception) {
                 //log Exception
             }

@@ -6,6 +6,8 @@ use App\Helper\Renderable;
 
 class Footer extends Renderable
 {
+    public static \Closure $render;
+
     public static function create($slug, $content = "", $routes = null, $permission = null, $priority = 0)
     {
         return prop("footer")->add(["slug" => $slug, "content" => $content, "permission" => $permission, "priority" => $priority, "routes" => $routes]);
@@ -13,7 +15,7 @@ class Footer extends Renderable
 
     public function render($object): ?string
     {
-        return is_callable($object["content"]) ? $object["content"]() : $object['content'];
+        return isset(self::$render) ? self::$render->call($this, $object) : (is_callable($object["content"]) ? $object["content"]() : $object['content']);
     }
 
     public function prioritySort(): Renderable

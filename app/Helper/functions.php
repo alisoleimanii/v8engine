@@ -275,7 +275,6 @@ function render(Renderable $prop, $params)
      */
     container("render", $prop);
     container("render-params", $params);
-
     $content = $prop->renderPrefix();
     $prop->prioritySort(...$params)->each(function ($item) use (&$content, $prop, $params) {
         if ($prop->checkRoute($item) and $prop->can($item)) {
@@ -293,4 +292,14 @@ function render(Renderable $prop, $params)
 function storagePath($path = "")
 {
     return env('STORAGE_PATH', BASEDIR . "/storage/" . $path);
+}
+
+function multimediaPath($path = "")
+{
+    return storagePath('multimedia/' . $path);
+}
+
+function back()
+{
+    return redirect($_SERVER["HTTP_REFERER"]);
 }

@@ -50,6 +50,7 @@ class MetaField
     public function setConfig()
     {
         $this->config = true;
+
         return $this;
     }
 
@@ -73,8 +74,11 @@ class MetaField
     {
         if (!$this->can())
             return false;
+
         if ($this->config)
             $model = Config::get($this->key, true);
+
+
         return call_user_func($this->controller, $model, $request, $value, $this);
     }
 
@@ -87,8 +91,11 @@ class MetaField
     {
         if (isset($this->getValue) and $this->getValue)
             return call_user_func($this->getValue, $this->model, $this);
+
         if ($this->config)
             return @Config::get($this->key)->value;
+
+
         $meta = $this->model->getMeta($this->key);
         return @$meta->value;
     }

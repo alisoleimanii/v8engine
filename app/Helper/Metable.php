@@ -5,6 +5,7 @@ namespace App\Helper;
 
 
 use App\Helper\View\Field;
+use App\Model\Config;
 use App\Model\Meta;
 use Core\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -75,7 +76,10 @@ trait Metable
             }
             $field->model = static::class;
             $field->setController($closure ?: ($field->getType() != "file" ? (function (Model $model, Request $request, $meta, MetaField $metaField) {
-                $model->setMeta($metaField->key, $meta);
+                if ($model instanceof Config)
+                    $model->update([Config::VALUE => $meta]);
+                else
+                    $model->setMeta($metaField->key, $meta);
             }) : (function (Model $model, Request $request, $file, MetaField $metaField) {
                 if ($file) {
                     $model->setMeta($metaField->key, url("assets/" . File::instance($file)->store("images")));

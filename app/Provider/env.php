@@ -3,6 +3,7 @@
 use Core\App;
 use Dotenv\Dotenv;
 
+session_start();
 Dotenv::createImmutable(BASEDIR)->load();
 
 /*
