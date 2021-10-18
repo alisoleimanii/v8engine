@@ -43,14 +43,10 @@ class Event
     {
         $callbacks->each(function ($callback) use ($newThis, $params) {
             $callback = $callback["closure"];
-            try {
-                /**
-                 * @var $callback Closure
-                 */
-              $callback->call($newThis, ...$params);
-            } catch (Exception $exception) {
-                //log Exception
-            }
+            /**
+             * @var $callback Closure
+             */
+            $callback->call($newThis, ...$params);
         });
         return true;
     }

@@ -1,7 +1,6 @@
 <?php
 /**
  * @copyright Aliakbar Soleimani 2020
- * #TODO Bootable Interface
  */
 
 namespace Core;
