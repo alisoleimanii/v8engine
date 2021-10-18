@@ -13,11 +13,11 @@ class Route implements Commandable
 
     public function __construct($command, ...$args)
     {
-        array_map(function ($index){
-            if (strpos($index,"--name=")>-1){
-                $this->name=explode("=",$index)[1];
+        array_map(function ($index) {
+            if (strpos($index, "--name=") > -1) {
+                $this->name = explode("=", $index)[1];
             }
-        },$args);
+        }, $args);
 //        $this->name=$args;
     }
 
@@ -33,11 +33,16 @@ class Route implements Commandable
 
     public function run()
     {
-        $table =$this->table();
+        $table = $this->table();
         foreach (App::router()->getRoutes()->getRoutes() as $route) {
-            if (strpos(@$route->action["as"],$this->name)>-1){
+            if (isset($this->name)) {
+                if (strpos(@$route->action["as"], $this->name) > -1) {
+                    $table->addRow([@$route->action["domain"], $this->getMethods($route->methods), @$route->uri, @$route->action["as"], @$route->action["controller"],]);
+
+                }
+            } else
                 $table->addRow([@$route->action["domain"], $this->getMethods($route->methods), @$route->uri, @$route->action["as"], @$route->action["controller"],]);
-            }
+
         }
         $table->display();
     }

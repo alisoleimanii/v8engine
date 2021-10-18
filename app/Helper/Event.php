@@ -26,12 +26,12 @@ class Event
     public static function listen($event, $newThis = null, ...$params)
     {
         $instance = static::instance();
-        return $instance->call($instance->container()->where("event", $event), $newThis, $params);
+        return $instance->call($instance->container()->where("event", $event)->sortBy('priority'), $newThis, $params);
     }
 
-    public static function bind($event, Closure $closure)
+    public static function bind($event, Closure $closure,$priority = 0)
     {
-        return static::instance()->container()->add(["event" => $event, "closure" => $closure]);
+        return static::instance()->container()->add(["event" => $event, "closure" => $closure,'priority' => $priority]);
     }
 
     private function container(): Collection

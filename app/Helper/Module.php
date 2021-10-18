@@ -121,8 +121,11 @@ class Module
             $this->setConfig();
             return true;
         }
-        if (isset($this->config->mainTable) and !empty($this->config->mainTable) and !Manager::schema()->hasTable($this->config->mainTable) and env("DEBUG", false)) {
-            return true;
+
+        if (env('CHECK_DB', false)) {
+            if (isset($this->config->mainTable) and !empty($this->config->mainTable) and !Manager::schema()->hasTable($this->config->mainTable) and env("DEBUG", false)) {
+                return true;
+            }
         }
         return false;
     }

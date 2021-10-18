@@ -24,7 +24,7 @@ register_shutdown_function(function () {
         return is_array($notice);
     });
 
-    if ($notices != $_SESSION['notices'])
+    if ($notices != @$_SESSION['notices'])
         $_SESSION['notices'] = $notices;
     else
         $_SESSION['notices'] = [];
