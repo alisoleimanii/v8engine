@@ -211,6 +211,9 @@ function abort($message = null, $code = null)
  */
 function container($param, $value = null)
 {
+    if (is_array($value))
+        return Container::add($param, $value);
+
     return $value ? Container::add($param, $value) : Container::get($param);
 }
 
@@ -302,4 +305,15 @@ function multimediaPath($path = "")
 function back()
 {
     return redirect($_SERVER["HTTP_REFERER"]);
+}
+
+/**
+ * @param $columns
+ * @param $rows
+ * @param array $data ['title' => 'Post',create => 'href','id' => 'table-id','subtitle' => 'Posts List']
+ * @return string
+ */
+function table(string $name, $columns, $rows, $data = [])
+{
+    return template('dashboard')->blank(view('list', array_merge($data, ['columns' => $columns, 'rows' => $rows, 'name' => $name])), ['subtitle' => @$data['subtitle']]);
 }

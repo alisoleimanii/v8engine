@@ -23,7 +23,7 @@ register_shutdown_function(function () {
     $notices = prop('notices');
 
 
-    if (\Core\App::request()->ajax() and $notices != $_SESSION['notices'])
+    if (\Core\App::request()->ajax() and $notices != @$_SESSION['notices'])
         $_SESSION['notices'] = $notices;
     else
         $_SESSION['notices'] = [];

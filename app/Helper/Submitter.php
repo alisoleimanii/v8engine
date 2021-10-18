@@ -44,6 +44,16 @@ class Submitter
         return json_encode($data);
     }
 
+    public static function alert($msg,$color = 'success',$mode = 'toastr',$data = [])
+    {
+        $response = new self(true,$msg);
+        $response->setAction('ALERT');
+        $response->setMode($mode);
+        $response->setDataAttribute($data);
+        $response->setColor($color);
+        return $response->send();
+    }
+
     public function send($successParam = false)
     {
         if ($successParam) {
