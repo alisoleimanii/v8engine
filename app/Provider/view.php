@@ -20,11 +20,10 @@ register_shutdown_function(function () {
     /**
      * @var $notices Notice
      */
-    $notices = prop('notices')->filter(function ($notice) {
-        return is_array($notice);
-    });
+    $notices = prop('notices');
 
-    if ($notices != $_SESSION['notices'])
+
+    if (\Core\App::request()->ajax() and $notices != $_SESSION['notices'])
         $_SESSION['notices'] = $notices;
     else
         $_SESSION['notices'] = [];
