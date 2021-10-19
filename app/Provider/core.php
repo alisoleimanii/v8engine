@@ -5,8 +5,12 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Queue\Capsule\Manager as Queue;
 use Illuminate\Redis\RedisManager;
+use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use App\Helper\Logger;
+use Illuminate\Support\Facades\Response;
+
 // init logger
 Log::swap((new Logger("logger"))->initialize(BASEDIR . "/" . env("LOG_PATH", "storage/logs")));
 

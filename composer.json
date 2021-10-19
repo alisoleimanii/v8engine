@@ -4,7 +4,6 @@
     "illuminate/routing": "^8.10",
     "illuminate/events": "^8.10",
     "illuminate/database": "8",
-    "eftec/bladeone": "dev-master",
     "illuminate/translation": "8.x-dev",
     "illuminate/validation": "8.x-dev",
     "vlucas/phpdotenv": "^5.2@dev",
@@ -14,7 +13,11 @@
     "ext-json": "*",
     "monolog/monolog": "^2.2",
     "illuminate/queue": "^8.47",
-    "illuminate/redis": "^8.47"
+    "illuminate/filesystem": "^8.0",
+    "illuminate/view": "^8.0",
+    "illuminate/redis": "^8.47",
+    "illuminate/container": "^8.0",
+    "illuminate/contracts": "^8.0"
   },
   "config": {
     "platform": {

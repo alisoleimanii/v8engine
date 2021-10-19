@@ -89,7 +89,7 @@ final class App
     /**
      * @return Request
      */
-    public static function request() 
+    public static function request()
     {
         return app('request');
     }

@@ -31,6 +31,7 @@ class Module
     public function load()
     {
         $this->loadMainClass();
+        $this->loadMainClass();
         $this->loadRouter();
         $this->isLoaded = true;
     }

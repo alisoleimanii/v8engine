@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Www implements Bootable
@@ -37,8 +38,6 @@ class Www implements Bootable
     {
         $app = App::instance();
         $router->getRoutes()->refreshNameLookups();
-        $app->url = new UrlGenerator($router->getRoutes(), $request);
-        new Redirector($app->url);
         try {
             $response = $router->dispatch($request);
             Event::listen('dispatch', $response);

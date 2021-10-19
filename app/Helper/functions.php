@@ -4,6 +4,8 @@ use App\Interfaces\Templatable;
 use App\Helper\{Validator, View\Menu, Renderable};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
+use Illuminate\Routing\ResponseFactory as Response;
 
 /**
  * Engine Main Directory Path
@@ -31,9 +33,9 @@ define("MODULES_DIR", BASEDIR . "/" . env('MODULE_PATH', 'modules'));
  * @param $param
  * @return App|mixed
  */
-function app($param = null)
+function app($param = null, $default = null)
 {
-    return $param ? container($param) : App::instance();
+    return $param ? container($param) ?? $default : App::instance();
 }
 
 /**
@@ -278,6 +280,7 @@ function render(Renderable $prop, $params)
      */
     container("render", $prop);
     container("render-params", $params);
+
     $content = $prop->renderPrefix();
     $prop->prioritySort(...$params)->each(function ($item) use (&$content, $prop, $params) {
         if ($prop->checkRoute($item) and $prop->can($item)) {
@@ -289,6 +292,7 @@ function render(Renderable $prop, $params)
         return $content;
     });
     $content .= $prop->renderAppend();
+
     return $content;
 }
 
@@ -316,4 +320,15 @@ function back()
 function table(string $name, $columns, $rows, $data = [])
 {
     return template('dashboard')->blank(view('list', array_merge($data, ['columns' => $columns, 'rows' => $rows, 'name' => $name])), ['subtitle' => @$data['subtitle']]);
+}
+
+
+function response(): Response
+{
+    return app('response');
+}
+
+function method_field($method)
+{
+    new HtmlString('<input type="hidden" name="_method" value="' . $method . '">');
 }

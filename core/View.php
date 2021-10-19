@@ -7,6 +7,13 @@ namespace Core;
 use App\Helper\Renderable;
 use eftec\bladeone\BladeOne;
 use Exception;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\Filesystem\Filesystem;
+use \Illuminate\View\Engines\CompilerEngine;
+use Illuminate\View\Engines\EngineResolver;
+use \Illuminate\View\FileViewFinder;
+use \Illuminate\View\Factory;
 
 /**
  * Class View
@@ -18,14 +25,21 @@ class View
      * @var View
      */
     private static self $instance;
-    public BladeOne $blade;
+    public BladeCompiler $blade;
     private array $paths = [];
 
     private function __construct()
     {
-        $this->blade = new BladeOne($this->getViewPaths(),
-            self::compilePath()
-            , $this->compileMode());
+        $filesystem = new Filesystem;
+        $viewResolver = new EngineResolver;
+        $bladeCompiler = $this->blade = new BladeCompiler($filesystem, View::compilePath());
+        $viewResolver->register('blade', function () use ($bladeCompiler) {
+            return new CompilerEngine($bladeCompiler);
+        });
+        $this->viewFinder = new FileViewFinder($filesystem, $this->getViewPaths());
+        $this->viewFactory = new Factory($viewResolver, $this->viewFinder, app('dispatcher'));
+
+        Blade::swap($bladeCompiler);
         $this->directives();
     }
 
@@ -92,6 +106,8 @@ class View
 
     public function addPath($path)
     {
+        $this->viewFinder->addLocation($path);
+        return;
         $this->blade->setPath($this->paths = [$path, ...$this->paths], self::compilePath());
     }
 
@@ -108,7 +124,7 @@ class View
          * Compile View
          */
         try {
-            return $this->blade->run($view, $data);
+            return $this->viewFactory->make($view, $data);
         } catch (Exception $e) {
             return $e;
         }
@@ -117,20 +133,25 @@ class View
     private function directives()
     {
         $url = App::router() ? url() : "/";
-        $this->blade->directiveRT("assets", function () use ($url) {
-            echo $url . "/assets";
+
+        Blade::directive("assets", function () use ($url) {
+            return $url . "/assets";
         });
-        $this->blade->directiveRT("url", function () use ($url) {
-            echo $url;
+
+        Blade::directive("url", function () use ($url) {
+            return $url;
         });
-        $this->blade->directiveRT('prop', function ($prop, $default = null) {
-            echo @self::getProp($prop, $default);
+        Blade::directive('prop', function ($prop, $default = null) {
+            return @self::getProp($prop, $default);
         });
-        $this->blade->directiveRT("render", function ($prop, ...$params) {
-            $prop = @self::getProp($prop);
+        Blade::directive("render", function ($prop) {
+            $data = explode(',', $prop);
+            $prop = @self::getProp($data[0] ?? $prop);
             if ($prop instanceof Renderable) {
-                echo render($prop, $params);
+                return render($prop, [$data[1]]);
             }
         });
+
+
     }
 }
