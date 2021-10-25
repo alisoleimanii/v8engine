@@ -27,9 +27,6 @@ App::instance()->url = $url =  new UrlGenerator($router->getRoutes(),$request);
 container('redirector',new Redirector($url));
 Route::swap(app('router'));
 
-//Load Engine Routes
-require_once __DIR__ . "/../../router.php";
-
 // Load the Base routes
 if (file_exists(BASEDIR . "/router.php"))
     require_once BASEDIR . '/router.php';
