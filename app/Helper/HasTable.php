@@ -6,6 +6,7 @@ namespace App\Helper;
 use App\Exception\V8Exception;
 use App\Helper\View\Footer;
 use Illuminate\Support\Collection;
+use Monolog\Handler\IFTTTHandler;
 
 define("COLUMN_PROPERTY", "prop");
 define("COLUMN_META", "meta");
@@ -61,7 +62,10 @@ trait HasTable
     public static function deleteTableColumn($slug)
     {
         $table = self::table();
-        self::$items = $table->where('slug', "!=", $slug);
+        if (is_array($slug))
+            self::$items = $table->whereNotIn('slug', $slug);
+        else
+            self::$items = $table->where('slug', "!=", $slug);
     }
 
     private static function renderTableHeader()

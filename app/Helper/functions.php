@@ -66,7 +66,7 @@ function config(string $name, $enginePath = false): array
  * Blade helper function
  * @param $view
  * @param array $data
- * @return Exception|string
+ * @return \Illuminate\Contracts\View\View
  */
 function view($view, $data = [])
 {
@@ -97,7 +97,6 @@ function redirect($url = null)
     $url = strtolower(substr($url, 0, 4)) != "http" ? App::url($url) : $url;
     header("Location: {$url}");
     exit;
-    return true;
 }
 
 /**
@@ -221,7 +220,6 @@ function container($param, $value = null)
 
 /**
  * Get Project Blade Instance
- * @return \eftec\bladeone\BladeOne
  */
 function blade()
 {
@@ -273,7 +271,7 @@ function asset($src)
 }
 
 
-function render(Renderable $prop, $params)
+function render(Renderable $prop, $params = [])
 {
     /*
      * Set Active Render
@@ -330,5 +328,5 @@ function response(): Response
 
 function method_field($method)
 {
-    new HtmlString('<input type="hidden" name="_method" value="' . $method . '">');
+    return new HtmlString('<input type="hidden" name="_method" value="' . $method . '">');
 }

@@ -6,6 +6,7 @@ use Dotenv\Dotenv;
 session_start();
 Dotenv::createImmutable(BASEDIR)->load();
 
+
 /*
  * Set Application Mode (Develop | Production)
  */
