@@ -5,7 +5,6 @@ namespace Core;
 
 
 use App\Helper\Renderable;
-use eftec\bladeone\BladeOne;
 use Exception;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -58,10 +57,10 @@ class View
         return self::baseViewsPath() . "/cache";
     }
 
-    private function compileMode()
-    {
-        return env("DEBUG", false) ? BladeOne::MODE_DEBUG : BladeOne::MODE_AUTO;
-    }
+//    private function compileMode()
+//    {
+//        return env("DEBUG", false) ? BladeOne::MODE_DEBUG : BladeOne::MODE_AUTO;
+//    }
 
     public static function instance()
     {
@@ -107,11 +106,9 @@ class View
     public function addPath($path)
     {
         $this->viewFinder->addLocation($path);
-        return;
-        $this->blade->setPath($this->paths = [$path, ...$this->paths], self::compilePath());
     }
 
-    private function getViewPaths()
+    private function getViewPaths(): array
     {
         return $this->paths = array_reverse(
             array_merge($this->getModulesViewPaths(), [self::baseViewsPath()])
@@ -148,10 +145,9 @@ class View
             $data = explode(',', $prop);
             $prop = @self::getProp($data[0] ?? $prop);
             if ($prop instanceof Renderable) {
-                return render($prop, [$data[1]]);
+                return render($prop, [@$data[1]]);
             }
+            return '';
         });
-
-
     }
 }

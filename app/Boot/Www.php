@@ -9,10 +9,8 @@ use App\Helper\Event;
 use App\Interfaces\Bootable;
 use Core\App;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
-use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Www implements Bootable
@@ -25,7 +23,6 @@ class Www implements Bootable
 
     public static function services()
     {
-
     }
 
     /**
@@ -36,10 +33,9 @@ class Www implements Bootable
      */
     private function invoke(Request $request, Router $router)
     {
-        $app = App::instance();
         $router->getRoutes()->refreshNameLookups();
         try {
-            $response = $router->dispatch($request);
+            $response = Route::dispatch($request);
             Event::listen('dispatch', $response);
         } catch (NotFoundHttpException $exception) {
             throw new V8Exception("route.invalid", "Route Not Found", 404);
