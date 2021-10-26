@@ -22,7 +22,7 @@ class Style extends Renderable
             $content = self::$render->call($this, $object, $params[0]);
         }
         if (!isset($content) or $content == RENDER_DEFAULT)
-            $content = "<link href='{$object['src']}' rel='stylesheet'>";
+            $content = "<link href='{$object['src']}' rel='stylesheet'  id='{$object['slug']}' >";
         return $content;
     }
 
