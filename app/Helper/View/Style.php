@@ -11,9 +11,9 @@ class Style extends Renderable
     public static Closure $render;
     public static string $template;
 
-    public static function enqueue($slug, $src, $template, $routes = null, $permission = null, $priority = 0)
+    public static function enqueue($slug, $src, $template, $routes = null, $permission = null, $priority = 0,$id = null)
     {
-        return prop("styles")->add(["slug" => $slug, "template" => $template, "src" => $src, "permission" => $permission, "priority" => $priority, "routes" => $routes]);
+        return prop("styles")->add(["slug" => $slug, "template" => $template, "src" => $src,"id" => $id, "permission" => $permission, "priority" => $priority, "routes" => $routes]);
     }
 
     public function render($object, ...$params): ?string
@@ -22,7 +22,9 @@ class Style extends Renderable
             $content = self::$render->call($this, $object, $params[0]);
         }
         if (!isset($content) or $content == RENDER_DEFAULT)
-            $content = "<link href='{$object['src']}' rel='stylesheet'  id='{$object['slug']}' >";
+        {
+            $content = "<link href='{$object['src']}' rel='stylesheet' " .($object['id'] ? "id='{$object['id']}'" : ""). ">";
+        }
         return $content;
     }
 

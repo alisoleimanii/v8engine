@@ -1,7 +1,7 @@
 <?php
 
 use App\Interfaces\Templatable;
-use App\Helper\{Validator, View\Menu, Renderable};
+use App\Helper\{Validator, View\Menu, Renderable, Event, View\Notice};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -304,9 +304,9 @@ function multimediaPath($path = "")
     return storagePath('multimedia/' . $path);
 }
 
-function back()
+function back($status = 302, $headers = [], $fallback = false)
 {
-    return redirect($_SERVER["HTTP_REFERER"]);
+    return app('redirector')->back($status, $headers, $fallback);
 }
 
 /**
@@ -329,4 +329,19 @@ function response(): Response
 function method_field($method)
 {
     return new HtmlString('<input type="hidden" name="_method" value="' . $method . '">');
+}
+
+function listen($event, $newThis = null, ...$params)
+{
+    return Event::listen($event, $newThis ?? app(), ...$params);
+}
+
+function bind($event, Closure $clusure, int $priority = 0)
+{
+    return Event::bind($event, $clusure, $priority);
+}
+
+function notice($color, $content = "", $css = [], $permission = null, $icon = null, $routes = null, $priority = 0, $closable = true)
+{
+    return Notice::create($color, $content, $css, $permission, $icon, $routes, $priority, $closable);
 }

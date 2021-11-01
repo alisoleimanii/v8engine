@@ -38,12 +38,12 @@ class Template implements Templatable
     {
         $i = 0;
         collect($this->styles)->each(function ($src, $name) use (&$i) {
-            Style::enqueue($name, $src, static::getTemplateTitle(), null, null, $i);
+            Style::enqueue($name, $src, static::getTemplateTitle(), null, null, $i, $name);
             $i++;
         });
         $i = 0;
         collect($this->scripts)->each(function ($src, $name) use (&$i) {
-            Script::enqueue($name, $src, static::getTemplateTitle(), null, null, $i);
+            Script::enqueue($name, $src, static::getTemplateTitle(), null, null, $i,$name);
             $i++;
 
         });

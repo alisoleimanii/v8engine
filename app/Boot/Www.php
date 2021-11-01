@@ -5,7 +5,6 @@ namespace App\Boot;
 
 
 use App\Exception\V8Exception;
-use App\Helper\Event;
 use App\Interfaces\Bootable;
 use Core\App;
 use Illuminate\Http\Request;
@@ -35,8 +34,9 @@ class Www implements Bootable
     {
         $router->getRoutes()->refreshNameLookups();
         try {
+            listen('before.dispatch');
             $response = Route::dispatch($request);
-            Event::listen('dispatch', $response);
+            listen('dispatch', $response);
         } catch (NotFoundHttpException $exception) {
             throw new V8Exception("route.invalid", "Route Not Found", 404);
         }

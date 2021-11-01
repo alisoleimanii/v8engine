@@ -5,7 +5,15 @@
  */
 
 use Core\App;
-use Illuminate\{Container\Container, Events\Dispatcher, Http\Request, Routing\Router, Support\Facades\Route,Routing\UrlGenerator,Routing\Redirector};
+use App\Kernel;
+use Illuminate\{Container\Container,
+    Events\Dispatcher,
+    Http\Request,
+    Routing\Router,
+    Support\Facades\Route,
+    Routing\UrlGenerator,
+    Routing\Redirector
+};
 
 $container = Container::getInstance();
 // Create a request from server variables, and bind it to the container; optional
@@ -23,15 +31,18 @@ $router = new Router($events, $container);
 container("router", $router);
 container("request", $request);
 
-App::instance()->url = $url =  new UrlGenerator($router->getRoutes(),$request);
-container('redirector',new Redirector($url));
+App::instance()->url = $url = new UrlGenerator($router->getRoutes(), $request);
+container('redirector',$a =  new Redirector($url));
 Route::swap(app('router'));
 
 // Load the Base routes
 if (file_exists(BASEDIR . "/router.php"))
     require_once BASEDIR . '/router.php';
 
-
+bind('before.dispatch', function () use ($router) {
+    if (class_exists(Kernel::class) and method_exists(Kernel::class,'handleAliases'))
+        Kernel::handleAliases($router);
+});
 // Create App Instance
 $app = App::instance();
 // Set Router & Request in App Instance
