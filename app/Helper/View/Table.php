@@ -40,6 +40,7 @@ class Table
 
     private function row($column, $row)
     {
+        #todo  Permissions
         return "<td class='{$column['slug']}'>" . $this->content($column, $row) . "</td>";
     }
 
