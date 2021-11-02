@@ -2,9 +2,11 @@
 
 use App\Interfaces\Templatable;
 use App\Helper\{Validator, View\Menu, Renderable, Event, View\Notice};
+use App\Interfaces\{User, Role};
 use Core\{App, Hook, Translation, View, Cache, Container};
-use Illuminate\Support\Collection;
-use Illuminate\Support\HtmlString;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+use Illuminate\Support\{Collection, HtmlString};
 use Illuminate\Routing\ResponseFactory as Response;
 
 /**
@@ -123,15 +125,6 @@ function migrate(string $migration, string $moduleDir)
     require_once $moduleDir . "/Database/Migration/" . $migration . ".php";
 }
 
-/**
- * Run Hook After Load All Modules
- * @param $hook
- * @param mixed ...$args
- */
-function hook($hook, ...$args)
-{
-    Hook::runAfterHook($hook, ...$args);
-}
 
 /**
  * @param $slug
@@ -320,28 +313,88 @@ function table(string $name, $columns, $rows, $data = [])
     return template('dashboard')->blank(view('list', array_merge($data, ['columns' => $columns, 'rows' => $rows, 'name' => $name])), ['subtitle' => @$data['subtitle']]);
 }
 
-
-function response(): Response
+/**
+ * @return Response
+ */
+function response()
 {
     return app('response');
 }
+
 
 function method_field($method)
 {
     return new HtmlString('<input type="hidden" name="_method" value="' . $method . '">');
 }
 
+
 function listen($event, $newThis = null, ...$params)
 {
     return Event::listen($event, $newThis ?? app(), ...$params);
 }
+
 
 function bind($event, Closure $clusure, int $priority = 0)
 {
     return Event::bind($event, $clusure, $priority);
 }
 
+
 function notice($color, $content = "", $css = [], $permission = null, $icon = null, $routes = null, $priority = 0, $closable = true)
 {
     return Notice::create($color, $content, $css, $permission, $icon, $routes, $priority, $closable);
+}
+
+/**
+ * Get or set active loginned user
+ * @return User
+ */
+function auth()
+{
+    $arg = @func_get_args() [0];
+    if (!is_null($arg)) {
+        if ($arg instanceof User) {
+            $user = container('user', $arg);
+            View::instance()->viewFactory->composer('*', function ($blade) use ($user) {;
+                $blade->with("user", $user);
+            });
+            return $user;
+        }
+
+        if (is_string($arg))
+            return container('user')->{$arg};
+    }
+
+
+    return container('user');
+}
+
+/**
+ * Get active user ID
+ * @return int
+ */
+function id()
+{
+    return auth('id');
+}
+
+function can($scope)
+{
+    return auth()->can($scope);
+}
+
+/**
+ * @return Request
+ */
+function request()
+{
+    return app('request');
+}
+
+/**
+ * @return Router
+ */
+function router()
+{
+    return app('router');
 }

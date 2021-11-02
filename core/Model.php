@@ -15,7 +15,7 @@ use Illuminate\Database\Query\Builder;
  * @method static static first($columns = ["*"])
  * @method static static find($id, $columns = ["*"])
  * @method Collection get($columns = "")
- * @method Builder where(...$condition)
+ * @method static where(...$condition)
  * @method Builder with(...$condition)
  * @method Builder orderBy($column, $order)
  * @method Builder forPage($page, $perPage)
