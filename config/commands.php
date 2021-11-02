@@ -12,7 +12,6 @@ use App\Command\ComposerDump;
 use App\Command\Route;
 
 return [
-
     /*
      * Create New Module
      */
