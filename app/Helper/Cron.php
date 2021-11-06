@@ -12,18 +12,19 @@ class Cron
     use Macroable;
 
     private string $name;
-    private string $path;
+    private $job;
     private int $delay;
     private string $buffer = "";
+    public bool $background = false;
 
     /**
      * Cron constructor.
      * @param $path string Cron php file path
      * @param int $delay Delay between execute cron (in minutes)
      */
-    public function __construct(string $path, int $delay = 1)
+    public function __construct($job, int $delay = 1)
     {
-        $this->path = $path;
+        $this->job = $job;
         $this->delay = $delay;
     }
 
@@ -38,14 +39,29 @@ class Cron
         return $this;
     }
 
+    public function runInBackground()
+    {
+        $this->background = true;
+    }
+
     public function run()
     {
         if ($this->shouldBeRun()) {
             $this->setLastRun();
-            @ob_clean();
-            require $this->path;
-            $this->buffer = ob_get_clean();
-            echo $this->buffer;
+            if (is_callable($this->job)) {
+                ($this->job)();
+                return;
+            }
+            if (file_exists($this->job)) {
+                if (PHP_SAPI == 'cli') {
+                    @ob_clean();
+                    require $this->path;
+                    $this->buffer = ob_get_clean();
+                    echo $this->buffer;
+                    return;
+                }
+                require $this->path;
+            }
         }
     }
 
