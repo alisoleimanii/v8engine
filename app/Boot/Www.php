@@ -7,8 +7,10 @@ namespace App\Boot;
 use App\Exception\V8Exception;
 use App\Interfaces\Bootable;
 use Core\App;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Core\Scheduler;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -17,6 +19,9 @@ class Www implements Bootable
 
     public function boot($args = null)
     {
+        if (@$args['cron'])
+            Scheduler::handle($args['cron']);
+
         $this->invoke(App::request(), App::router());
     }
 
