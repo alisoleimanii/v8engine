@@ -32,7 +32,7 @@ container("router", $router);
 container("request", $request);
 
 App::instance()->url = $url = new UrlGenerator($router->getRoutes(), $request);
-container('redirector',$a =  new Redirector($url));
+container('redirector', $a = new Redirector($url));
 Route::swap(app('router'));
 
 // Load the Base routes
@@ -40,8 +40,14 @@ if (file_exists(BASEDIR . "/router.php"))
     require_once BASEDIR . '/router.php';
 
 bind('before.dispatch', function () use ($router) {
-    if (class_exists(Kernel::class) and method_exists(Kernel::class,'handleAliases'))
-        Kernel::handleAliases($router);
+    if (class_exists(Kernel::class)) {
+        if (method_exists(Kernel::class, 'handleAliases'))
+            Kernel::handleAliases($router);
+        
+        if (method_exists(Kernel::class, 'handleGlobals'))
+            Kernel::handleGlobals($router);
+    }
+
 });
 // Create App Instance
 $app = App::instance();
