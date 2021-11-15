@@ -362,7 +362,7 @@ function auth()
         }
 
         if (is_string($arg))
-            return container('user')->{$arg};
+            return @container('user')->{$arg};
     }
 
 
