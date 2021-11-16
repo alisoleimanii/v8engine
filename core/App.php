@@ -107,7 +107,6 @@ final class App
     public static function setLocale($locale)
     {
         container('locale', $locale);
-        Carbon::setLocale($locale);
     }
 
     /**
