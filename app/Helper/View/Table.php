@@ -11,23 +11,41 @@ class Table
 {
     public Collection $columns;
     public Collection $rows;
+    public bool $json = false;
 
     /**
      * Table constructor.
      * @param $columns
      * @param $rows
      */
-    public function __construct($columns, $rows)
+    public function __construct($columns, $rows, $json = false)
     {
         $this->columns = collect($columns);
         $this->rows = collect($rows);
+        $this->json = $json;
     }
 
     public function render($id = null)
     {
+        if ($this->json) {
+            return $this->toJson();
+        }
         $id = $id ? $id : str_replace("\\", "_", static::class);
 //        Footer::create("table", "<script>var {$id} = $('#{$id}').DataTable({'pageLength': 25})</script>");
         return view("table", ["header" => $this->header(), "body" => $this->body(), "id" => $id]);
+    }
+
+    private function toJson()
+    {
+        $output = [];
+        $this->rows->each(function ($row) use (&$output) {
+            $render = [];
+            $this->columns->each(function ($column) use (&$render, $row) {
+                $render[$column['slug']] = $this->content($column, $row);
+            });
+            $output[] = $render;
+        });
+        return $output;
     }
 
     private function header()
