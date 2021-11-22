@@ -31,11 +31,12 @@ class Scheduler
      */
     public static function updateCronLastRun($cron)
     {
-        $list = static::getRunList();
-        $list->{$cron}[] = time();
-        if (count($list->{$cron}) > 10)
-            array_shift($list->cron);
-        static::setRunList($list);
+        //todo : array_shift(): Argument #1 ($array) must be of type array, null given
+//        $list = static::getRunList();
+//        $list->{$cron}[] = time();
+//        if (count($list->{$cron}) > 10)
+//            array_shift($list->cron);
+//        static::setRunList($list);
     }
 
     protected static function setRunList($list)
