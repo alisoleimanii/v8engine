@@ -271,7 +271,6 @@ function render(Renderable $prop, $params = [])
      */
     container("render", $prop);
     container("render-params", $params);
-
     $content = $prop->renderPrefix();
     $prop->prioritySort(...$params)->each(function ($item) use (&$content, $prop, $params) {
         if ($prop->checkRoute($item) and $prop->can($item)) {

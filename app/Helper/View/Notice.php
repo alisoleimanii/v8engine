@@ -26,7 +26,7 @@ class Notice extends Renderable
 
     public function prioritySort(): Renderable
     {
-        return $this->sortBy("priority");
+        return $this;
     }
 
     public function can($object): bool

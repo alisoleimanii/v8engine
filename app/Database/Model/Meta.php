@@ -18,4 +18,8 @@ class Meta extends Model
         return $this->morphTo();
     }
 
+    public function __toString()
+    {
+        return $this->value;
+    }
 }
