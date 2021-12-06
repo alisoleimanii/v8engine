@@ -1,7 +1,7 @@
 <?php
 
 use App\Interfaces\Templatable;
-use App\Helper\{Validator, View\Menu, Renderable, Event, View\Notice};
+use App\Helper\{Validator, View\Menu, Renderable, Event, View\Notice, Filter};
 use App\Interfaces\{User, Role};
 use Core\{App, Hook, Translation, View, Cache, Container};
 use Illuminate\Http\Request;
@@ -310,7 +310,7 @@ function back($status = 302, $headers = [], $fallback = false)
 function table(string $name, $columns, $rows, $data = [], $json = false)
 {
     if ($json) {
-        return (new \App\Helper\View\Table($columns,$rows,$json))->render();
+        return (new \App\Helper\View\Table($columns, $rows, $json))->render();
     }
     return template('dashboard')->blank(view('list', array_merge($data, ['columns' => $columns, 'rows' => $rows, 'name' => $name])), ['subtitle' => @$data['subtitle']]);
 }
@@ -330,7 +330,7 @@ function method_field($method)
 }
 
 
-function listen($event, $newThis = null, ...$params)
+function listen($event, $newThis = null, &...$params)
 {
     return Event::listen($event, $newThis ?? app(), ...$params);
 }
@@ -400,4 +400,32 @@ function request()
 function router()
 {
     return app('router');
+}
+
+/**
+ * Create Variable Filter
+ * @param $filter
+ * @param $var
+ * @return false|mixed
+ */
+function filter($filter, $var)
+{
+    return Filter::add($filter, $var);
+}
+
+
+/**
+ * Apply callback to filters to change values in other stacks
+ * @param $filter
+ * @param $callback
+ */
+function apply_filter($filter, $callback,$priotiy = 10)
+{
+    Filter::apply($filter, $callback,$priotiy);
+}
+
+
+function field($label, $input)
+{
+    return (new \App\Helper\View\Filed\Label($label, $input))->setFormGroup(true);
 }
