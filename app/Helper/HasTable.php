@@ -38,6 +38,11 @@ trait HasTable
         self::table()->add(compact("slug", "title", "data", "permission", "priority"));
     }
 
+    public static function getTableColumns()
+    {
+        return self::table()->toArray();
+    }
+
     private static function checkColumnData($data)
     {
         return $data == COLUMN_PROPERTY or $data == COLUMN_META or is_callable($data);

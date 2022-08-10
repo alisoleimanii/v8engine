@@ -107,7 +107,6 @@ final class App
     public static function setLocale($locale)
     {
         container('locale', $locale);
-        Carbon::setLocale($locale);
     }
 
     /**
@@ -123,7 +122,7 @@ final class App
 
 
         //Create Bootable
-        $boot = new $bootable();
+        $boot = new $bootable($args);
 
         //Check Bootable
         throw_if(!$boot instanceof Bootable, new V8Exception("bootable.invalid", "{$bootable} Must be Instance of " . Bootable::class));
@@ -136,6 +135,6 @@ final class App
         ServiceProviderBootstrap::run($boot::services());
 
         // Boot Application
-        (new $boot())->boot($args);
+        $boot->boot($args);
     }
 }

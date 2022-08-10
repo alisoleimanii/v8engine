@@ -31,4 +31,5 @@ register_shutdown_function(function () {
         $_SESSION['notices'] = $notices;
     else
         $_SESSION['notices'] = [];
+    
 });

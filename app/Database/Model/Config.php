@@ -29,7 +29,7 @@ class Config extends Model
     {
         $config = self::where(self::KEY, $key)->first();
         if ($create and !$config)
-            $config = self::set($key, "");
+            $config = self::set($key, null);
         return $config;
     }
 }
